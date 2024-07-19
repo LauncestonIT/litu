@@ -53,7 +53,6 @@ Function Get-WinUtilCheckBoxes {
                         # Get the winget value
                         [PsCustomObject]@{
                             winget="$($sync.configs.applications.$($CheckBox.Name).winget)";
-                            choco="$($sync.configs.applications.$($CheckBox.Name).choco)";
                         }
 
                     }

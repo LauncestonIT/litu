@@ -14,7 +14,6 @@ Describe "Config Files" -ForEach @(
         name = "applications"
         config = $('{
             "winget": "value",
-            "choco": "value",
             "category": "value",
             "content": "value",
             "description": "value",

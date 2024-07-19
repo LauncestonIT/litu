@@ -49,18 +49,5 @@ function Install-WinUtilWinget {
         # Winget only needs a refresh of the environment variables to be used.
         Write-Output "Refreshing Environment Variables...`n"
         $ENV:PATH = [System.Environment]::GetEnvironmentVariable("Path", "Machine") + ";" + [System.Environment]::GetEnvironmentVariable("Path", "User")
-    } Catch {
-        Write-Host "Failure detected while installing via GitHub method. Continuing with Chocolatey method as fallback." -ForegroundColor Red
-        # In case install fails via GitHub method.
-        Try {
-        # Install Choco if not already present
-        Install-WinUtilChoco
-        Start-Process -Verb runas -FilePath powershell.exe -ArgumentList "choco install winget-cli"
-        Write-Host "Winget Installed" -ForegroundColor Green
-        Write-Output "Refreshing Environment Variables...`n"
-        $ENV:PATH = [System.Environment]::GetEnvironmentVariable("Path", "Machine") + ";" + [System.Environment]::GetEnvironmentVariable("Path", "User")
-        } Catch {
-            throw [WingetFailedInstall]::new('Failed to install!')
-        }
     }
 }

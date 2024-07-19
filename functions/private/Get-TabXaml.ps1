@@ -41,7 +41,6 @@ function Get-TabXaml {
             Name = $appName
             Category = $appInfo.Category
             Content = $appInfo.Content
-            Choco = $appInfo.choco
             Winget = $appInfo.winget
             Panel = if ($columncount -gt 0 ) { "0" } else {$appInfo.panel}
             Link = $appInfo.link

@@ -31,19 +31,14 @@ function Invoke-WPFUnInstall {
 
     Invoke-WPFRunspace -ArgumentList $PackagesToInstall -DebugPreference $DebugPreference -ScriptBlock {
         param($PackagesToInstall, $DebugPreference)
-        $packagesWinget, $packagesChoco = {
+        $packagesWinget = {
             $packagesWinget = [System.Collections.Generic.List`1[System.Object]]::new()
-            $packagesChoco = [System.Collections.Generic.List`1[System.Object]]::new()
             foreach ($package in $PackagesToInstall) {
-                if ($package.winget -eq "na") {
-                    $packagesChoco.add($package)
-                    Write-Host "Queueing $($package.choco) for Chocolatey Uninstall"
-                } else {
                     $packagesWinget.add($package)
                     Write-Host "Queueing $($package.winget) for Winget Uninstall"
                 }
             }
-            return $packagesWinget, $packagesChoco
+            return $packagesWinget
         }.Invoke($PackagesToInstall)
         try{
             $sync.ProcessRunning = $true
@@ -51,9 +46,6 @@ function Invoke-WPFUnInstall {
             # Install all selected programs in new window
             if($packagesWinget.Count -gt 0){
                 Install-WinUtilProgramWinget -ProgramsToInstall $packagesWinget -Manage "Uninstalling"
-            }
-            if($packagesChoco.Count -gt 0){
-                Install-WinUtilProgramChoco -ProgramsToInstall $packagesChoco -Manage "Uninstalling"
             }
 
             $ButtonType = [System.Windows.MessageBoxButton]::OK

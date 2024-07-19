@@ -37,12 +37,6 @@ $sync.runspace.Open()
         WingetFailedInstall($Message) : base($Message) {}
     }
 
-    class ChocoFailedInstall : Exception {
-        [string] $additionalData
-
-        ChocoFailedInstall($Message) : base($Message) {}
-    }
-
     class GenericException : Exception {
         [string] $additionalData
 

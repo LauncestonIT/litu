@@ -22,19 +22,14 @@ function Invoke-WPFInstall {
 
     Invoke-WPFRunspace -ArgumentList $PackagesToInstall -DebugPreference $DebugPreference -ScriptBlock {
         param($PackagesToInstall, $DebugPreference)
-        $packagesWinget, $packagesChoco = {
+        $packagesWinget= {
             $packagesWinget = [System.Collections.Generic.List`1[System.Object]]::new()
-            $packagesChoco = [System.Collections.Generic.List`1[System.Object]]::new()
             foreach ($package in $PackagesToInstall) {
-                if ($package.winget -eq "na") {
-                    $packagesChoco.add($package)
-                    Write-Host "Queueing $($package.choco) for Chocolatey install"
-                } else {
                     $packagesWinget.add($package)
                     Write-Host "Queueing $($package.winget) for Winget install"
                 }
             }
-            return $packagesWinget, $packagesChoco
+            return $packagesWinget
         }.Invoke($PackagesToInstall)
 
         try{
@@ -43,11 +38,6 @@ function Invoke-WPFInstall {
             if($packagesWinget.Count -gt 0){
                 Install-WinUtilWinget
                 $errorPackages += Install-WinUtilProgramWinget -ProgramsToInstall $packagesWinget
-                $errorPackages| ForEach-Object {if($_.choco -ne "na") {$packagesChoco += $_}}
-            }
-            if($packagesChoco.Count -gt 0){
-                Install-WinUtilChoco
-                Install-WinUtilProgramChoco -ProgramsToInstall $packagesChoco
             }
             Write-Host "==========================================="
             Write-Host "--      Installs have finished          ---"
