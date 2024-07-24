@@ -9,7 +9,7 @@
         WindowStartupLocation="CenterScreen"
         UseLayoutRounding="True"
         WindowStyle="None"
-        Title="Chris Titus Tech's Windows Utility" Height="800" Width="1280">
+        Title="Launceston IT Windows Utility" Height="800" Width="1280">
     <WindowChrome.WindowChrome>
         <WindowChrome CaptionHeight="0" CornerRadius="10"/>
     </WindowChrome.WindowChrome>
@@ -211,22 +211,12 @@
                         <ControlTemplate.Triggers>
                             <Trigger Property="IsMouseOver" Value="True">
                                 <Setter TargetName="BackgroundBorder" Property="Background" Value="{ButtonBackgroundMouseoverColor}"/>
-                                <Setter Property="Effect">
-                                    <Setter.Value>
-                                        <DropShadowEffect Opacity="1" ShadowDepth="5" Color="Gold" Direction="-100" BlurRadius="45"/>
-                                    </Setter.Value>
-                                </Setter>
                                 <Setter Property="Panel.ZIndex" Value="2000"/>
                             </Trigger>
                             <Trigger Property="IsChecked" Value="True">
                                 <Setter Property="BorderBrush" Value="Pink"/>
                                 <Setter Property="BorderThickness" Value="2"/>
                                 <Setter TargetName="BackgroundBorder" Property="Background" Value="{ButtonBackgroundSelectedColor}"/>
-                                <Setter Property="Effect">
-                                    <Setter.Value>
-                                        <DropShadowEffect Opacity="1" ShadowDepth="2" Color="Gold" Direction="-111" BlurRadius="25"/>
-                                    </Setter.Value>
-                                </Setter>
                             </Trigger>
                             <Trigger Property="IsChecked" Value="False">
                                 <Setter Property="BorderBrush" Value="Transparent"/>
@@ -509,31 +499,6 @@
             <Setter Property="CornerRadius" Value="5"/>
             <Setter Property="Padding" Value="5"/>
             <Setter Property="Margin" Value="5"/>
-            <Setter Property="Effect">
-                <Setter.Value>
-                    <DropShadowEffect ShadowDepth="5" BlurRadius="5" Opacity="{BorderOpacity}" Color="{BorderColor}"/>
-                </Setter.Value>
-            </Setter>
-            <Style.Triggers>
-                <EventTrigger RoutedEvent="Loaded">
-                    <BeginStoryboard>
-                        <Storyboard RepeatBehavior="Forever">
-                            <!-- <DoubleAnimation
-                                Storyboard.TargetProperty="Effect.(DropShadowEffect.ShadowDepth)"
-                                From="6" To="15" Duration="{ShadowPulse}" AutoReverse="True"/> -->
-                            <!-- <DoubleAnimation
-                                Storyboard.TargetProperty="Effect.(DropShadowEffect.Direction)"
-                                From="0" To="360" Duration="Forever"/> -->
-                            <DoubleAnimation
-                                Storyboard.TargetProperty="Effect.(DropShadowEffect.Opacity)"
-                                From="0.5" To="0.94" Duration="{ShadowPulse}" AutoReverse="True"/>
-                            <DoubleAnimation
-                                Storyboard.TargetProperty="Effect.(DropShadowEffect.BlurRadius)"
-                                From="5" To="15" Duration="{ShadowPulse}" AutoReverse="True"/>
-                        </Storyboard>
-                    </BeginStoryboard>
-                </EventTrigger>
-            </Style.Triggers>
         </Style>
 
         <Style TargetType="TextBox">
@@ -560,11 +525,6 @@
                     </ControlTemplate>
                 </Setter.Value>
             </Setter>
-            <Setter Property="Effect">
-                <Setter.Value>
-                    <DropShadowEffect ShadowDepth="5" BlurRadius="5" Opacity="{BorderOpacity}" Color="{BorderColor}"/>
-                </Setter.Value>
-            </Setter>
         </Style>
         <Style x:Key="ScrollVisibilityRectangle" TargetType="Rectangle">
             <Setter Property="Visibility" Value="Collapsed"/>
@@ -589,7 +549,7 @@
         </Grid.ColumnDefinitions>
         <DockPanel HorizontalAlignment="Stretch" Background="{MainBackgroundColor}" SnapsToDevicePixels="True" Grid.Row="0" Width="Auto">
             <Image Height="{WinUtilIconSize}" Width="{WinUtilIconSize}" Name="WPFIcon"
-                SnapsToDevicePixels="True" Source="https://christitus.com/images/logo-full.png" Margin="10"/>
+                SnapsToDevicePixels="True" Source="https://launcestonit.com.au/assets/images/logo.png" Margin="10"/>
             <ToggleButton HorizontalAlignment="Left" Height="{TabButtonHeight}" Width="{TabButtonWidth}"
                 Background="{ButtonInstallBackgroundColor}" Foreground="white" FontWeight="Bold" Name="WPFTab1BT">
                 <ToggleButton.Content>

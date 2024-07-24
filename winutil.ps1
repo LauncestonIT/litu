@@ -2992,26 +2992,24 @@ Function Invoke-WPFFormVariables {
     #If ($global:ReadmeDisplay -ne $true) { Write-Host "If you need to reference this display again, run Get-FormVariables" -ForegroundColor Yellow; $global:ReadmeDisplay = $true }
 
 
+    Write-Host "   ,--,                     ,----,                "
+    Write-Host ",---.'|                   ,/   .`|                "
+    Write-Host "|   | :       ,---,     ,`   .'  :                "
+    Write-Host ":   : |    ,`--.' |   ;    ;     /          ,--,  "
+    Write-Host "|   ' :    |   :  : .'___,/    ,'         ,'_ /|  "
+    Write-Host ";   ; '    :   |  ' |    :     |     .--. |  | :  "
+    Write-Host "'   | |__  |   :  | ;    |.';  ;   ,'_ /| :  . |  "
+    Write-Host "|   | :.'| '   '  ; `----'  |  |   |  ' | |  . .  "
+    Write-Host "'   :    ; |   |  |     '   :  ;   |  | ' |  | |  "
+    Write-Host "|   |  ./  '   :  ;     |   |  '   :  | | :  ' ;  "
+    Write-Host ";   : ;    |   |  '     '   :  |   |  ; ' |  | '  "
+    Write-Host "|   ,/     '   :  |     ;   |.'    :  | : ;  ; |  "
+    Write-Host "'---'      ;   |.'      '---'      '  :  `--'   \ "
+    Write-Host "           '---'                   :  ,      .-./ "
+    Write-Host "                                    `--`----'     "
     Write-Host ""
-    Write-Host "    CCCCCCCCCCCCCTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT   "
-    Write-Host " CCC::::::::::::CT:::::::::::::::::::::TT:::::::::::::::::::::T   "
-    Write-Host "CC:::::::::::::::CT:::::::::::::::::::::TT:::::::::::::::::::::T  "
-    Write-Host "C:::::CCCCCCCC::::CT:::::TT:::::::TT:::::TT:::::TT:::::::TT:::::T "
-    Write-Host "C:::::C       CCCCCCTTTTTT  T:::::T  TTTTTTTTTTTT  T:::::T  TTTTTT"
-    Write-Host "C:::::C                     T:::::T                T:::::T        "
-    Write-Host "C:::::C                     T:::::T                T:::::T        "
-    Write-Host "C:::::C                     T:::::T                T:::::T        "
-    Write-Host "C:::::C                     T:::::T                T:::::T        "
-    Write-Host "C:::::C                     T:::::T                T:::::T        "
-    Write-Host "C:::::C                     T:::::T                T:::::T        "
-    Write-Host "C:::::C       CCCCCC        T:::::T                T:::::T        "
-    Write-Host "C:::::CCCCCCCC::::C      TT:::::::TT            TT:::::::TT       "
-    Write-Host "CC:::::::::::::::C       T:::::::::T            T:::::::::T       "
-    Write-Host "CCC::::::::::::C         T:::::::::T            T:::::::::T       "
-    Write-Host "  CCCCCCCCCCCCC          TTTTTTTTTTT            TTTTTTTTTTT       "
-    Write-Host ""
-    Write-Host "====Chris Titus Tech====="
-    Write-Host "=====Windows Toolbox====="
+    Write-Host "======Launceston IT======"
+    Write-Host "=====Windows Utility====="
 
     #====DEBUG GUI Elements====
 
@@ -4827,9 +4825,9 @@ $sync.configs.themes = '{
     "CustomDialogWidth": "400",
     "CustomDialogHeight": "200",
     "FontSize": "12",
-    "FontFamily": "Arial",
+    "FontFamily": "Aptos",
     "FontSizeHeading": "14",
-    "HeaderFontFamily": "Consolas, Monaco",
+    "HeaderFontFamily": "Aptos, Aptos",
     "CheckBoxBulletDecoratorFontSize": "14",
     "CheckBoxMargin": "15,0,0,2",
     "TabButtonFontSize": "14",
@@ -4849,7 +4847,7 @@ $sync.configs.themes = '{
     "LinkHoverForegroundColor": "#FFFFFF",
     "ComboBoxForegroundColor": "#FFAC1C",
     "ButtonFontSize": "12",
-    "ButtonFontFamily": "Arial",
+    "ButtonFontFamily": "Aptos",
     "ButtonWidth": "200",
     "ButtonHeight": "25",
     "ConfigTabButtonFontSize": "16",
@@ -8076,7 +8074,7 @@ $inputXML =  '<Window x:Class="WinUtility.MainWindow"
         WindowStartupLocation="CenterScreen"
         UseLayoutRounding="True"
         WindowStyle="None"
-        Title="Chris Titus Tech''s Windows Utility" Height="800" Width="1280">
+        Title="Launceston IT Windows Utility" Height="800" Width="1280">
     <WindowChrome.WindowChrome>
         <WindowChrome CaptionHeight="0" CornerRadius="10"/>
     </WindowChrome.WindowChrome>
@@ -8278,22 +8276,12 @@ $inputXML =  '<Window x:Class="WinUtility.MainWindow"
                         <ControlTemplate.Triggers>
                             <Trigger Property="IsMouseOver" Value="True">
                                 <Setter TargetName="BackgroundBorder" Property="Background" Value="{ButtonBackgroundMouseoverColor}"/>
-                                <Setter Property="Effect">
-                                    <Setter.Value>
-                                        <DropShadowEffect Opacity="1" ShadowDepth="5" Color="Gold" Direction="-100" BlurRadius="45"/>
-                                    </Setter.Value>
-                                </Setter>
                                 <Setter Property="Panel.ZIndex" Value="2000"/>
                             </Trigger>
                             <Trigger Property="IsChecked" Value="True">
                                 <Setter Property="BorderBrush" Value="Pink"/>
                                 <Setter Property="BorderThickness" Value="2"/>
                                 <Setter TargetName="BackgroundBorder" Property="Background" Value="{ButtonBackgroundSelectedColor}"/>
-                                <Setter Property="Effect">
-                                    <Setter.Value>
-                                        <DropShadowEffect Opacity="1" ShadowDepth="2" Color="Gold" Direction="-111" BlurRadius="25"/>
-                                    </Setter.Value>
-                                </Setter>
                             </Trigger>
                             <Trigger Property="IsChecked" Value="False">
                                 <Setter Property="BorderBrush" Value="Transparent"/>
@@ -8576,31 +8564,6 @@ $inputXML =  '<Window x:Class="WinUtility.MainWindow"
             <Setter Property="CornerRadius" Value="5"/>
             <Setter Property="Padding" Value="5"/>
             <Setter Property="Margin" Value="5"/>
-            <Setter Property="Effect">
-                <Setter.Value>
-                    <DropShadowEffect ShadowDepth="5" BlurRadius="5" Opacity="{BorderOpacity}" Color="{BorderColor}"/>
-                </Setter.Value>
-            </Setter>
-            <Style.Triggers>
-                <EventTrigger RoutedEvent="Loaded">
-                    <BeginStoryboard>
-                        <Storyboard RepeatBehavior="Forever">
-                            <!-- <DoubleAnimation
-                                Storyboard.TargetProperty="Effect.(DropShadowEffect.ShadowDepth)"
-                                From="6" To="15" Duration="{ShadowPulse}" AutoReverse="True"/> -->
-                            <!-- <DoubleAnimation
-                                Storyboard.TargetProperty="Effect.(DropShadowEffect.Direction)"
-                                From="0" To="360" Duration="Forever"/> -->
-                            <DoubleAnimation
-                                Storyboard.TargetProperty="Effect.(DropShadowEffect.Opacity)"
-                                From="0.5" To="0.94" Duration="{ShadowPulse}" AutoReverse="True"/>
-                            <DoubleAnimation
-                                Storyboard.TargetProperty="Effect.(DropShadowEffect.BlurRadius)"
-                                From="5" To="15" Duration="{ShadowPulse}" AutoReverse="True"/>
-                        </Storyboard>
-                    </BeginStoryboard>
-                </EventTrigger>
-            </Style.Triggers>
         </Style>
 
         <Style TargetType="TextBox">
@@ -8627,11 +8590,6 @@ $inputXML =  '<Window x:Class="WinUtility.MainWindow"
                     </ControlTemplate>
                 </Setter.Value>
             </Setter>
-            <Setter Property="Effect">
-                <Setter.Value>
-                    <DropShadowEffect ShadowDepth="5" BlurRadius="5" Opacity="{BorderOpacity}" Color="{BorderColor}"/>
-                </Setter.Value>
-            </Setter>
         </Style>
         <Style x:Key="ScrollVisibilityRectangle" TargetType="Rectangle">
             <Setter Property="Visibility" Value="Collapsed"/>
@@ -8656,7 +8614,7 @@ $inputXML =  '<Window x:Class="WinUtility.MainWindow"
         </Grid.ColumnDefinitions>
         <DockPanel HorizontalAlignment="Stretch" Background="{MainBackgroundColor}" SnapsToDevicePixels="True" Grid.Row="0" Width="Auto">
             <Image Height="{WinUtilIconSize}" Width="{WinUtilIconSize}" Name="WPFIcon"
-                SnapsToDevicePixels="True" Source="https://christitus.com/images/logo-full.png" Margin="10"/>
+                SnapsToDevicePixels="True" Source="https://launcestonit.com.au/assets/images/logo.png" Margin="10"/>
             <ToggleButton HorizontalAlignment="Left" Height="{TabButtonHeight}" Width="{TabButtonWidth}"
                 Background="{ButtonInstallBackgroundColor}" Foreground="white" FontWeight="Bold" Name="WPFTab1BT">
                 <ToggleButton.Content>
@@ -8686,14 +8644,6 @@ $inputXML =  '<Window x:Class="WinUtility.MainWindow"
                 <ToggleButton.Content>
                     <TextBlock FontSize="{TabButtonFontSize}" Background="Transparent" Foreground="{ButtonUpdatesForegroundColor}">
                         <Underline>U</Underline>pdates
-                    </TextBlock>
-                </ToggleButton.Content>
-            </ToggleButton>
-            <ToggleButton HorizontalAlignment="Left" Height="{TabButtonHeight}" Width="{TabButtonWidth}"
-                Background="{ButtonUpdatesBackgroundColor}" Foreground="{ButtonUpdatesForegroundColor}" FontWeight="Bold" Name="WPFTab5BT">
-                <ToggleButton.Content>
-                    <TextBlock FontSize="{TabButtonFontSize}" Background="Transparent" Foreground="{ButtonUpdatesForegroundColor}">
-                        <Underline>M</Underline>icroWin
                     </TextBlock>
                 </ToggleButton.Content>
             </ToggleButton>
@@ -8762,9 +8712,6 @@ $inputXML =  '<Window x:Class="WinUtility.MainWindow"
                         <StackPanel Background="{MainBackgroundColor}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
                             <MenuItem FontSize="{ButtonFontSize}" Header="Import" Name="ImportMenuItem" Foreground="{MainForegroundColor}"/>
                             <MenuItem FontSize="{ButtonFontSize}" Header="Export" Name="ExportMenuItem" Foreground="{MainForegroundColor}"/>
-                            <Separator/>
-                            <MenuItem FontSize="{ButtonFontSize}" Header="About" Name="AboutMenuItem" Foreground="{MainForegroundColor}"/>
-                            <MenuItem FontSize="{ButtonFontSize}" Header="Sponsors" Name="SponsorMenuItem" Foreground="{MainForegroundColor}"/>
                         </StackPanel>
                     </Border>
                 </Popup>
@@ -9576,7 +9523,7 @@ Add-Type @"
     # Using a TaskbarItem Overlay until someone figures out how to replace the icon correctly
 
     # URL of the image
-    $imageUrl = "https://christitus.com/images/logo-full.png"
+    $imageUrl = "https://launcestonit.com.au/assets/images/logo.png"
 
     # Download the image
     $imagePath = "$env:TEMP\logo-full.png"
@@ -9771,49 +9718,5 @@ $sync["ExportMenuItem"].Add_Click({
     $_.Handled = $false
 })
 
-$sync["AboutMenuItem"].Add_Click({
-    # Handle Export menu item click
-    Write-Debug "About clicked"
-    $sync["SettingsPopup"].IsOpen = $false
-    $authorInfo = @"
-Author   : <a href="https://github.com/ChrisTitusTech">@christitustech</a>
-Runspace : <a href="https://github.com/DeveloperDurp">@DeveloperDurp</a>
-GitHub   : <a href="https://github.com/ChrisTitusTech/winutil">ChrisTitusTech/winutil</a>
-Version  : <a href="https://github.com/ChrisTitusTech/winutil/releases/tag/$($sync.version)">$($sync.version)</a>
-"@
-    $FontSize = $sync.configs.themes.$ctttheme.CustomDialogFontSize
-    $HeaderFontSize = $sync.configs.themes.$ctttheme.CustomDialogFontSizeHeader
-    $IconSize = $sync.configs.themes.$ctttheme.CustomDialogIconSize
-    $Width = $sync.configs.themes.$ctttheme.CustomDialogWidth
-    $Height = $sync.configs.themes.$ctttheme.CustomDialogHeight
-    Show-CustomDialog -Message $authorInfo -Width $Width -Height $Height -FontSize $FontSize -HeaderFontSize $HeaderFontSize -IconSize $IconSize
-})
-
-$sync["SponsorMenuItem"].Add_Click({
-    # Handle Export menu item click
-    Write-Debug "Sponsors clicked"
-    $sync["SettingsPopup"].IsOpen = $false
-    $authorInfo = @"
-<a href="https://github.com/sponsors/ChrisTitusTech">Current sponsors for ChrisTitusTech:</a>
-"@
-    $authorInfo += "`n"
-    try {
-        # Call the function to get the sponsors
-        $sponsors = Invoke-WinUtilSponsors
-
-        # Append the sponsors to the authorInfo
-        $sponsors | ForEach-Object { $authorInfo += "$_`n" }
-    }
-    catch {
-        $authorInfo += "An error occurred while fetching or processing the sponsors: $_`n"
-    }
-
-    $FontSize = $sync.configs.themes.$ctttheme.CustomDialogFontSize
-    $HeaderFontSize = $sync.configs.themes.$ctttheme.CustomDialogFontSizeHeader
-    $IconSize = $sync.configs.themes.$ctttheme.CustomDialogIconSize
-    $Width = $sync.configs.themes.$ctttheme.CustomDialogWidth
-    $Height = $sync.configs.themes.$ctttheme.CustomDialogHeight
-    Show-CustomDialog -Message $authorInfo -Width $Width -Height $Height -FontSize $FontSize -HeaderFontSize $HeaderFontSize -IconSize $IconSize -EnableScroll $true
-})
 $sync["Form"].ShowDialog() | out-null
 Stop-Transcript

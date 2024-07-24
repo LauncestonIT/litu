@@ -51,7 +51,7 @@ if ((Get-WinUtilToggleStatus WPFToggleDarkMode) -eq $True) {
         $ctttheme = 'Matrix'
     }
     else {
-        $ctttheme = 'Dark'
+        $ctttheme = 'Matrix'
     }
 }
 else {
@@ -286,7 +286,7 @@ Add-Type @"
     # Using a TaskbarItem Overlay until someone figures out how to replace the icon correctly
 
     # URL of the image
-    $imageUrl = "https://christitus.com/images/logo-full.png"
+    $imageUrl = "https://launcestonit.com.au/assets/images/logo.png"
 
     # Download the image
     $imagePath = "$env:TEMP\logo-full.png"
