@@ -5656,14 +5656,6 @@ $inputXML =  '<Window x:Class="WinUtility.MainWindow"
                     </TextBlock>
                 </ToggleButton.Content>
             </ToggleButton>
-            <ToggleButton HorizontalAlignment="Left" Height="{TabButtonHeight}" Width="{TabButtonWidth}"
-                Background="{ButtonUpdatesBackgroundColor}" Foreground="{ButtonUpdatesForegroundColor}" FontWeight="Bold" Name="WPFTab4BT">
-                <ToggleButton.Content>
-                    <TextBlock FontSize="{TabButtonFontSize}" Background="Transparent" Foreground="{ButtonUpdatesForegroundColor}">
-                        <Underline>U</Underline>pdates
-                    </TextBlock>
-                </ToggleButton.Content>
-            </ToggleButton>
             <Grid Background="{MainBackgroundColor}" ShowGridLines="False" Width="Auto" Height="Auto" HorizontalAlignment="Stretch">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"/>
@@ -6136,36 +6128,6 @@ $inputXML =  '<Window x:Class="WinUtility.MainWindow"
                                 </StackPanel>
                             </Border>
 
-                    </Grid>
-                </ScrollViewer>
-            </TabItem>
-            <TabItem Header="Updates" Visibility="Collapsed" Name="WPFTab4">
-                <ScrollViewer VerticalScrollBarVisibility="Auto">
-                <Grid Background="Transparent">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="*"/>
-                    </Grid.ColumnDefinitions>
-                    <Border Grid.Row="0" Grid.Column="0">
-                        <StackPanel Background="{MainBackgroundColor}" SnapsToDevicePixels="True">
-                            <Button Name="WPFUpdatesdefault" FontSize="{ConfigTabButtonFontSize}" Height="Auto" Width="Auto" Content="Default (Out of Box) Settings" Margin="20,4,20,10" Padding="10"/>
-                            <TextBlock Margin="20,0,20,0" Padding="10" TextWrapping="WrapWithOverflow" MaxWidth="300">This is the default settings that come with Windows. <LineBreak/><LineBreak/> No modifications are made and will remove any custom windows update settings.<LineBreak/><LineBreak/>Note: If you still encounter update errors, reset all updates in the config tab. That will restore ALL Microsoft Update Services from their servers and reinstall them to default settings.</TextBlock>
-                        </StackPanel>
-                    </Border>
-                    <Border Grid.Row="0" Grid.Column="1">
-                        <StackPanel Background="{MainBackgroundColor}" SnapsToDevicePixels="True">
-                            <Button Name="WPFUpdatessecurity" FontSize="{ConfigTabButtonFontSize}" Height="Auto" Width="Auto" Content="Security (Recommended) Settings" Margin="20,4,20,10" Padding="10"/>
-                            <TextBlock Margin="20,0,20,0" Padding="10" TextWrapping="WrapWithOverflow" MaxWidth="300">This is my recommended setting I use on all computers.<LineBreak/><LineBreak/> It will delay feature updates by 2 years and will install security updates 4 days after release.<LineBreak/><LineBreak/>Feature Updates: Adds features and often bugs to systems when they are released. You want to delay these as long as possible.<LineBreak/><LineBreak/>Security Updates: Typically these are pressing security flaws that need to be patched quickly. You only want to delay these a couple of days just to see if they are safe and don''t break other systems. You don''t want to go without these for ANY extended periods of time.</TextBlock>
-                        </StackPanel>
-                    </Border>
-                    <Border Grid.Row="0" Grid.Column="2">
-                        <StackPanel Background="{MainBackgroundColor}" SnapsToDevicePixels="True">
-                            <Button Name="WPFUpdatesdisable" FontSize="{ConfigTabButtonFontSize}" Height="Auto" Width="Auto" Content="Disable ALL Updates (NOT RECOMMENDED!)" Margin="20,4,20,10" Padding="10,10,10,10"/>
-                            <TextBlock Margin="20,0,20,0" Padding="10" TextWrapping="WrapWithOverflow" MaxWidth="300">This completely disables ALL Windows Updates and is NOT RECOMMENDED.<LineBreak/><LineBreak/> However, it can be suitable if you use your system for a select purpose and do not actively browse the internet. <LineBreak/><LineBreak/>Note: Your system will be easier to hack and infect without security updates.</TextBlock>
-                            <TextBlock Text=" " Margin="20,0,20,0" Padding="10" TextWrapping="WrapWithOverflow" MaxWidth="300"/>
-                        </StackPanel>
-                        </Border>
                     </Grid>
                 </ScrollViewer>
             </TabItem>
