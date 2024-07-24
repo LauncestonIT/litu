@@ -582,14 +582,6 @@
                     </TextBlock>
                 </ToggleButton.Content>
             </ToggleButton>
-            <ToggleButton HorizontalAlignment="Left" Height="{TabButtonHeight}" Width="{TabButtonWidth}"
-                Background="{ButtonUpdatesBackgroundColor}" Foreground="{ButtonUpdatesForegroundColor}" FontWeight="Bold" Name="WPFTab5BT">
-                <ToggleButton.Content>
-                    <TextBlock FontSize="{TabButtonFontSize}" Background="Transparent" Foreground="{ButtonUpdatesForegroundColor}">
-                        <Underline>M</Underline>icroWin
-                    </TextBlock>
-                </ToggleButton.Content>
-            </ToggleButton>
             <Grid Background="{MainBackgroundColor}" ShowGridLines="False" Width="Auto" Height="Auto" HorizontalAlignment="Stretch">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"/>
