@@ -51,4 +51,3 @@ function Invoke-WPFInstall {
         Start-Sleep -Seconds 5
         $sync.ProcessRunning = $False
     }
-}

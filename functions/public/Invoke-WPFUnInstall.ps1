@@ -66,4 +66,3 @@ function Invoke-WPFUnInstall {
         }
         $sync.ProcessRunning = $False
     }
-}
