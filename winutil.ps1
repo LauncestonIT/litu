@@ -369,7 +369,7 @@ function Get-TabXaml {
         foreach ($category in ($organizedData[$panel].Keys | Sort-Object)) {
             $count++
             if ($columncount -gt 0) {
-                $panelcount2 = [Int](($count)/$maxcount-0.5)
+                $panelcount2 = 2
                 if ($panelcount -eq $panelcount2 ) {
                     $blockXml += $precal_indent_p2 + "</StackPanel>" + "`r`n"
                     $blockXml += $precal_indent_p1 + "</Border>" + "`r`n"
@@ -8752,9 +8752,6 @@ $inputXML =  '<Window x:Class="WinUtility.MainWindow"
                             <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*"/>
                             <ColumnDefinition Width="*"/>
-                            <ColumnDefinition Width="*"/>
-                            <ColumnDefinition Width="*"/>
-                            <ColumnDefinition Width="*"/>
                         </Grid.ColumnDefinitions>
                         <Border Grid.Row="1" Grid.Column="0">
                             <StackPanel Background="{MainBackgroundColor}" SnapsToDevicePixels="True">
@@ -8799,10 +8796,6 @@ $inputXML =  '<Window x:Class="WinUtility.MainWindow"
                                 <CheckBox Name="WPFInstallWPFInstallgithubdesktop" Content="GitHub Desktop" ToolTip="GitHub Desktop is a visual Git client that simplifies collaboration on GitHub repositories with an easy-to-use interface." Margin="0,0,2,0"/>
                                 <TextBlock Name="WPFInstallWPFInstallgithubdesktopLink" Style="{StaticResource HoverTextBlockStyle}" Text="(?)" ToolTip="https://desktop.github.com/"/>
                             </StackPanel>
-                        </StackPanel>
-                    </Border>
-                    <Border Grid.Row="1" Grid.Column="1">
-                        <StackPanel Background="{MainBackgroundColor}" SnapsToDevicePixels="True">
                             <StackPanel Orientation="Horizontal">
                                 <CheckBox Name="WPFInstallWPFInstallpowershell" Content="PowerShell" ToolTip="PowerShell is a task automation framework and scripting language designed for system administrators, offering powerful command-line capabilities." Margin="0,0,2,0"/>
                                 <TextBlock Name="WPFInstallWPFInstallpowershellLink" Style="{StaticResource HoverTextBlockStyle}" Text="(?)" ToolTip="https://github.com/PowerShell/PowerShell"/>
@@ -8842,10 +8835,6 @@ $inputXML =  '<Window x:Class="WinUtility.MainWindow"
                                 <CheckBox Name="WPFInstallWPFInstallupscayl" Content="Upscayl (Image Upscaler)" ToolTip="Free and Open Source AI Image Upscaler for Linux, MacOS and Windows built with Linux-First philosophy." Margin="0,0,2,0"/>
                                 <TextBlock Name="WPFInstallWPFInstallupscaylLink" Style="{StaticResource HoverTextBlockStyle}" Text="(?)" ToolTip="https://github.com/upscayl/upscayl"/>
                             </StackPanel>
-                        </StackPanel>
-                    </Border>
-                    <Border Grid.Row="1" Grid.Column="2">
-                        <StackPanel Background="{MainBackgroundColor}" SnapsToDevicePixels="True">
                             <StackPanel Orientation="Horizontal">
                                 <CheckBox Name="WPFInstallWPFInstallvlc" Content="VLC (Video Player)" ToolTip="VLC Media Player is a free and open-source multimedia player that supports a wide range of audio and video formats. It is known for its versatility and cross-platform compatibility." Margin="0,0,2,0"/>
                                 <TextBlock Name="WPFInstallWPFInstallvlcLink" Style="{StaticResource HoverTextBlockStyle}" Text="(?)" ToolTip="https://www.videolan.org/vlc/"/>
@@ -8865,6 +8854,10 @@ $inputXML =  '<Window x:Class="WinUtility.MainWindow"
                                 <CheckBox Name="WPFInstallWPFInstallOpenVPN" Content="OpenVPN Connect" ToolTip="OpenVPN Connect is an open-source VPN client that allows you to connect securely to a VPN server. It provides a secure and encrypted connection for protecting your online privacy." Margin="0,0,2,0"/>
                                 <TextBlock Name="WPFInstallWPFInstallOpenVPNLink" Style="{StaticResource HoverTextBlockStyle}" Text="(?)" ToolTip="https://openvpn.net/"/>
                             </StackPanel>
+                        </StackPanel>
+                    </Border>
+                    <Border Grid.Row="1" Grid.Column="1">
+                        <StackPanel Background="{MainBackgroundColor}" SnapsToDevicePixels="True">
                             <StackPanel Orientation="Horizontal">
                                 <CheckBox Name="WPFInstallWPFInstallwifimandesktop" Content="WiFiman Desktop" ToolTip="UniFi Device Discovery." Margin="0,0,2,0"/>
                                 <TextBlock Name="WPFInstallWPFInstallwifimandesktopLink" Style="{StaticResource HoverTextBlockStyle}" Text="(?)" ToolTip="https://www.wireshark.org/"/>
@@ -8877,6 +8870,10 @@ $inputXML =  '<Window x:Class="WinUtility.MainWindow"
                                 <CheckBox Name="WPFInstallWPFInstallwireshark" Content="WireShark" ToolTip="Wireshark is a widely-used open-source network protocol analyzer. It allows users to capture and analyze network traffic in real-time, providing detailed insights into network activities." Margin="0,0,2,0"/>
                                 <TextBlock Name="WPFInstallWPFInstallwiresharkLink" Style="{StaticResource HoverTextBlockStyle}" Text="(?)" ToolTip="https://www.wireshark.org/"/>
                             </StackPanel>
+                                    </StackPanel>
+                                </Border>
+                                <Border Grid.Row="1" Grid.Column="2">
+                                    <StackPanel Background="{MainBackgroundColor}" SnapsToDevicePixels="True">
 
                             <Label Name="WPFLabelOffice" Content="Office" FontSize="{FontSizeHeading}" FontFamily="{HeaderFontFamily}"/>
 
@@ -8892,10 +8889,6 @@ $inputXML =  '<Window x:Class="WinUtility.MainWindow"
                                 <CheckBox Name="WPFInstallWPFInstallnaps2" Content="NAPS2 (Document Scanner)" ToolTip="NAPS2 is a document scanning application that simplifies the process of creating electronic documents." Margin="0,0,2,0"/>
                                 <TextBlock Name="WPFInstallWPFInstallnaps2Link" Style="{StaticResource HoverTextBlockStyle}" Text="(?)" ToolTip="https://www.naps2.com/"/>
                             </StackPanel>
-                        </StackPanel>
-                    </Border>
-                    <Border Grid.Row="1" Grid.Column="3">
-                        <StackPanel Background="{MainBackgroundColor}" SnapsToDevicePixels="True">
                             <StackPanel Orientation="Horizontal">
                                 <CheckBox Name="WPFInstallWPFInstallonedrive" Content="OneDrive" ToolTip="OneDrive is a cloud storage service provided by Microsoft, allowing users to store and share files securely across devices." Margin="0,0,2,0"/>
                                 <TextBlock Name="WPFInstallWPFInstallonedriveLink" Style="{StaticResource HoverTextBlockStyle}" Text="(?)" ToolTip="https://onedrive.live.com/"/>
@@ -8933,10 +8926,6 @@ $inputXML =  '<Window x:Class="WinUtility.MainWindow"
                                 <CheckBox Name="WPFInstallWPFInstallesearch" Content="Everything Search" ToolTip="Everything Search is a fast and efficient file search utility for Windows." Margin="0,0,2,0"/>
                                 <TextBlock Name="WPFInstallWPFInstallesearchLink" Style="{StaticResource HoverTextBlockStyle}" Text="(?)" ToolTip="https://www.voidtools.com/"/>
                             </StackPanel>
-                        </StackPanel>
-                    </Border>
-                    <Border Grid.Row="1" Grid.Column="4">
-                        <StackPanel Background="{MainBackgroundColor}" SnapsToDevicePixels="True">
                             <StackPanel Orientation="Horizontal">
                                 <CheckBox Name="WPFInstallWPFInstalletcher" Content="Etcher USB Creator" ToolTip="Etcher is a powerful tool for creating bootable USB drives with ease." Margin="0,0,2,0"/>
                                 <TextBlock Name="WPFInstallWPFInstalletcherLink" Style="{StaticResource HoverTextBlockStyle}" Text="(?)" ToolTip="https://www.balena.io/etcher/"/>

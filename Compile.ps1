@@ -101,7 +101,7 @@ $xaml = (Get-Content .\xaml\inputXML.xaml).replace("'","''")
 . .\functions\private\Get-TabXaml.ps1
 
 Update-Progress "Building: Xaml " 75
-$appXamlContent = Get-TabXaml "applications" 5
+$appXamlContent = Get-TabXaml "applications" 2
 $tweaksXamlContent = Get-TabXaml "tweaks"
 $featuresXamlContent = Get-TabXaml "feature"
 

@@ -103,7 +103,7 @@ function Get-TabXaml {
         foreach ($category in ($organizedData[$panel].Keys | Sort-Object)) {
             $count++
             if ($columncount -gt 0) {
-                $panelcount2 = [Int](($count)/$maxcount-0.5)
+                $panelcount2 = 2
                 if ($panelcount -eq $panelcount2 ) {
                     $blockXml += $precal_indent_p2 + "</StackPanel>" + "`r`n"
                     $blockXml += $precal_indent_p1 + "</Border>" + "`r`n"
