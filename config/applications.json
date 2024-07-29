@@ -48,6 +48,13 @@
 		"link": "https://www.google.com/chrome/",
 		"winget": "Google.Chrome"
 	},
+	"WPFInstallcomet": {
+		"category": "Backup",
+		"content": "Comet Backup",
+		"description": "Comet is a backup solution for MSPs & IT teams.",
+		"link": "https://comet.launcestonit.com.au/",
+		"winget": "CometBackup"
+	},
 	"WPFInstalldrawio": {
 		"category": "Multimedia Tools",
 		"content": "draw.io",

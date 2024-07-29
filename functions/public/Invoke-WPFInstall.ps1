@@ -22,15 +22,16 @@ function Invoke-WPFInstall {
 
     Invoke-WPFRunspace -ArgumentList $PackagesToInstall -DebugPreference $DebugPreference -ScriptBlock {
         param($PackagesToInstall, $DebugPreference)
-        $packagesWinget= {
-            $packagesWinget = [System.Collections.Generic.List`1[System.Object]]::new()
-            foreach ($package in $PackagesToInstall) {
-                    $packagesWinget.add($package)
-                    Write-Host "Queueing $($package.winget) for Winget install"
-                }
-            }
-            return $packagesWinget
-        }.Invoke($PackagesToInstall)
+        $packagesWinget = [System.Collections.Generic.List`1[System.Object]]::new()
+        foreach ($package in $PackagesToInstall) {
+            if ($package.winget -eq "CometBackup") {
+                Write-Host "Running Invoke-WPFInstallComet for $($package.winget)"
+                Invoke-WPFInstallComet
+            } else {
+                $packagesWinget.add($package)
+                Write-Host "Queueing $($package.winget) for Winget install"
+            }.Invoke($PackagesToInstall)
+        }
 
         try{
             $sync.ProcessRunning = $true
@@ -51,3 +52,4 @@ function Invoke-WPFInstall {
         Start-Sleep -Seconds 5
         $sync.ProcessRunning = $False
     }
+}

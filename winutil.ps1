@@ -8,7 +8,7 @@
     Author         : Chris Titus @christitustech
     Runspace Author: @DeveloperDurp
     GitHub         : https://github.com/ChrisTitusTech
-    Version        : 24.07.24
+    Version        : 24.07.29
 #>
 param (
     [switch]$Debug,
@@ -45,7 +45,7 @@ Add-Type -AssemblyName System.Windows.Forms
 # Variable to sync between runspaces
 $sync = [Hashtable]::Synchronized(@{})
 $sync.PSScriptRoot = $PSScriptRoot
-$sync.version = "24.07.24"
+$sync.version = "24.07.29"
 $sync.configs = @{}
 $sync.ProcessRunning = $false
 
@@ -2607,7 +2607,7 @@ function Invoke-WPFCloseButton {
     .PARAMETER Button
     #>
     $sync["Form"].Close()
-    Write-Host "Bye bye!"
+    Write-Host "Exiting..."
 }
 function Invoke-WPFControlPanel {
     <#
@@ -3147,15 +3147,16 @@ function Invoke-WPFInstall {
 
     Invoke-WPFRunspace -ArgumentList $PackagesToInstall -DebugPreference $DebugPreference -ScriptBlock {
         param($PackagesToInstall, $DebugPreference)
-        $packagesWinget= {
-            $packagesWinget = [System.Collections.Generic.List`1[System.Object]]::new()
-            foreach ($package in $PackagesToInstall) {
-                    $packagesWinget.add($package)
-                    Write-Host "Queueing $($package.winget) for Winget install"
-                }
-            }
-            return $packagesWinget
-        }.Invoke($PackagesToInstall)
+        $packagesWinget = [System.Collections.Generic.List`1[System.Object]]::new()
+        foreach ($package in $PackagesToInstall) {
+            if ($package.winget -eq "CometBackup") {
+                Write-Host "Running Invoke-WPFInstallComet for $($package.winget)"
+                Invoke-WPFInstallComet
+            } else {
+                $packagesWinget.add($package)
+                Write-Host "Queueing $($package.winget) for Winget install"
+            }.Invoke($PackagesToInstall)
+        }
 
         try{
             $sync.ProcessRunning = $true
@@ -3176,6 +3177,82 @@ function Invoke-WPFInstall {
         Start-Sleep -Seconds 5
         $sync.ProcessRunning = $False
     }
+}
+function Invoke-WPFInstallComet {
+
+    <#
+
+    .SYNOPSIS
+        Installs Comet Backup.
+
+    .PARAMETER Button
+    #>
+    Write-Host "Starting install of Comet Backup..."
+    Add-Type -AssemblyName System.Windows.Forms
+    
+    # Create a new form
+    $form = New-Object System.Windows.Forms.Form
+    $form.Text = ''
+    $form.Size = New-Object System.Drawing.Size(500,150)
+    $form.StartPosition = 'CenterScreen'
+
+    # Create a label
+    $label = New-Object System.Windows.Forms.Label
+    $label.Text = 'Please enter your Comet Backup server URL (eg. https://comet.example.com):'
+    $label.AutoSize = $true
+    $label.Location = New-Object System.Drawing.Point(10,20)
+    $form.Controls.Add($label)
+
+    # Create a textbox
+    $textbox = New-Object System.Windows.Forms.TextBox
+    $textbox.Size = New-Object System.Drawing.Size(260,20)
+    $textbox.Location = New-Object System.Drawing.Point(10,50)
+    $form.Controls.Add($textbox)
+
+    # Create a button
+    $button = New-Object System.Windows.Forms.Button
+    $button.Text = 'OK'
+    $button.Location = New-Object System.Drawing.Point(100,80)
+    $button.Add_Click({
+        $form.DialogResult = [System.Windows.Forms.DialogResult]::OK
+        $form.Close()
+    })
+    $form.Controls.Add($button)
+
+    # Show the form
+    $form.Topmost = $true
+    $form.Add_Shown({$form.Activate()})
+    $form.ShowDialog()
+
+    # Get the user input
+    $cometURL = $textbox.Text
+
+    $url = "$cometURL/dl/1"
+    $zipPath = "$env:TEMP\comet.zip"
+    $extractPath = "$env:TEMP\comet"
+    # Download the zip file
+    Invoke-WebRequest -Uri $url -OutFile $zipPath
+    # Extract the zip file
+    if (Test-Path $extractPath) {
+        Remove-Item -Path $extractPath -Recurse -Force
+    }
+    Expand-Archive -Path $zipPath -DestinationPath $extractPath
+    # Verify the necessary files are extracted
+    $installExe = Join-Path -Path $extractPath -ChildPath "install.exe"
+    $installDat = Join-Path -Path $extractPath -ChildPath "install.dat"
+    
+    if (-Not (Test-Path $installExe) -Or -Not (Test-Path $installDat)) {
+        throw "Installation files are missing."
+    } else {
+        # Start the installer with silent install flag
+        Write-Host "Silently running installer in lobby mode..."
+        Set-Location -Path $extractPath
+        Start-Process -FilePath $installExe -ArgumentList "/S /LOBBY /dat=$installDat" -Wait
+        Set-Location $env:USERPROFILE
+    }
+}
+
+Write-Host "yo"
 function Invoke-WPFInstallUpgrade {
     <#
 
@@ -4151,6 +4228,13 @@ $sync.configs.applications = '{
     "description": "Google Chrome is a widely used web browser known for its speed, simplicity, and seamless integration with Google services.",
     "link": "https://www.google.com/chrome/",
     "winget": "Google.Chrome"
+  },
+  "WPFInstallWPFInstallcomet": {
+    "category": "Backup",
+    "content": "Comet Backup",
+    "description": "Comet is a backup solution for MSPs &#38; IT teams.",
+    "link": "https://comet.launcestonit.com.au/",
+    "winget": "CometBackup"
   },
   "WPFInstallWPFInstalldrawio": {
     "category": "Multimedia Tools",
@@ -5764,6 +5848,13 @@ $inputXML =  '<Window x:Class="WinUtility.MainWindow"
                         </Grid.ColumnDefinitions>
                         <Border Grid.Row="1" Grid.Column="0">
                             <StackPanel Background="{MainBackgroundColor}" SnapsToDevicePixels="True">
+
+                            <Label Name="WPFLabelBackup" Content="Backup" FontSize="{FontSizeHeading}" FontFamily="{HeaderFontFamily}"/>
+
+                            <StackPanel Orientation="Horizontal">
+                                <CheckBox Name="WPFInstallWPFInstallcomet" Content="Comet Backup" ToolTip="Comet is a backup solution for MSPs &#38; IT teams." Margin="0,0,2,0"/>
+                                <TextBlock Name="WPFInstallWPFInstallcometLink" Style="{StaticResource HoverTextBlockStyle}" Text="(?)" ToolTip="https://comet.launcestonit.com.au/"/>
+                            </StackPanel>
 
                             <Label Name="WPFLabelBrowsers" Content="Browsers" FontSize="{FontSizeHeading}" FontFamily="{HeaderFontFamily}"/>
 
