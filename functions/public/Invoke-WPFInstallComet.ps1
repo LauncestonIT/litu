@@ -1,62 +1,49 @@
 function Invoke-WPFInstallComet {
 
     <#
-
     .SYNOPSIS
-        Installs Comet Backup.
-
-    .PARAMETER Button
+        Installs Comet Backup from Comet Backup Server.
     #>
     Write-Host "Starting install of Comet Backup..."
-    Add-Type -AssemblyName System.Windows.Forms
-    
-    # Create a new form
-    $form = New-Object System.Windows.Forms.Form
-    $form.Text = ''
-    $form.Size = New-Object System.Drawing.Size(500,150)
-    $form.StartPosition = 'CenterScreen'
-
-    # Create a label
-    $label = New-Object System.Windows.Forms.Label
-    $label.Text = 'Please enter your Comet Backup server URL (eg. https://comet.example.com):'
-    $label.AutoSize = $true
-    $label.Location = New-Object System.Drawing.Point(10,20)
-    $form.Controls.Add($label)
-
-    # Create a textbox
-    $textbox = New-Object System.Windows.Forms.TextBox
-    $textbox.Size = New-Object System.Drawing.Size(260,20)
-    $textbox.Location = New-Object System.Drawing.Point(10,50)
-    $form.Controls.Add($textbox)
-
-    # Create a button
-    $button = New-Object System.Windows.Forms.Button
-    $button.Text = 'OK'
-    $button.Location = New-Object System.Drawing.Point(100,80)
-    $button.Add_Click({
-        $form.DialogResult = [System.Windows.Forms.DialogResult]::OK
-        $form.Close()
-    })
-    $form.Controls.Add($button)
-
-    # Show the form
-    $form.Topmost = $true
-    $form.Add_Shown({$form.Activate()})
-    $form.ShowDialog()
 
     # Get the user input
-    $cometURL = $textbox.Text
+    $cometURL = Invoke-WPFTextInput -LabelText "Please enter your Comet Backup server URL (eg. https://comet.example.com):"
+
+    if (-not $cometURL) {
+        throw "No URL provided."
+    }
 
     $url = "$cometURL/dl/1"
     $zipPath = "$env:TEMP\comet.zip"
     $extractPath = "$env:TEMP\comet"
+    
     # Download the zip file
-    Invoke-WebRequest -Uri $url -OutFile $zipPath
+    try {
+        Write-Host "Downloading Comet Backup from $url..."
+        Invoke-WebRequest -Uri $url -OutFile $zipPath
+    }
+    catch {
+        throw "Failed to download the file from $url. $_"
+    }
+
+    # Verify the zip file is downloaded
+    if (-Not (Test-Path $zipPath)) {
+        throw "The ZIP file was not downloaded successfully."
+    }
+
     # Extract the zip file
     if (Test-Path $extractPath) {
         Remove-Item -Path $extractPath -Recurse -Force
     }
-    Expand-Archive -Path $zipPath -DestinationPath $extractPath
+    
+    try {
+        Write-Host "Extracting Comet Backup installer..."
+        Expand-Archive -Path $zipPath -DestinationPath $extractPath
+    }
+    catch {
+        throw "Failed to extract the ZIP file. $_"
+    }
+
     # Verify the necessary files are extracted
     $installExe = Join-Path -Path $extractPath -ChildPath "install.exe"
     $installDat = Join-Path -Path $extractPath -ChildPath "install.dat"
