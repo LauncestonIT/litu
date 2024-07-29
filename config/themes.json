@@ -9,7 +9,7 @@
                     "FontSize":         "12",
                     "FontFamily":       "Arial",
                     "FontSizeHeading":  "14",
-                    "HeaderFontFamily": "Consolas, Monaco",
+                    "HeaderFontFamily": "Aptos, Aptos",
 
                     "CheckBoxBulletDecoratorFontSize": "14",
                     "CheckBoxMargin": "15,0,0,2",
