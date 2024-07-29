@@ -1,4 +1,4 @@
-function Invoke-TextInput {
+function Invoke-WPFTextInput {
     param (
         [string]$LabelText = ''
     )
@@ -8,7 +8,7 @@ function Invoke-TextInput {
     .SYNOPSIS
         Prompts User for input.
     #>
-    
+
     Add-Type -AssemblyName System.Windows.Forms
     Add-Type -AssemblyName System.Drawing
 
@@ -22,7 +22,7 @@ function Invoke-TextInput {
     $foregroundColor = [System.Drawing.ColorTranslator]::FromHtml("#FFAC1C")
     $buttonBackgroundColor = [System.Drawing.ColorTranslator]::FromHtml("#000019")
     $buttonForegroundColor = [System.Drawing.ColorTranslator]::FromHtml("#cca365")
-    $borderColor = [System.Drawing.ColorTranslator]::FromHtml("#555555")
+    $buttonBorderColor = [System.Drawing.ColorTranslator]::FromHtml("#68686a")
 
     # Create a new form
     $form = New-Object System.Windows.Forms.Form
@@ -94,5 +94,3 @@ function Invoke-TextInput {
     return $textbox.Text
 }
 
-$url = Invoke-TextInput -LabelText "Enter Hudu URL"
-write-host $url
