@@ -3187,7 +3187,7 @@ function Invoke-WPFInstallComet {
     Write-Host "Starting install of Comet Backup..."
 
     # Get the user input
-    $cometURL = Invoke-WPFTextInput -LabelText "Please enter your Comet Backup server URL (eg. https://comet.example.com):"
+    $cometURL = Invoke-WPFTextInput -LabelText "Enter your Comet Backup server URL"
 
     if (-not $cometURL) {
         throw "No URL provided."
@@ -6365,7 +6365,7 @@ if ((Get-WinUtilToggleStatus WPFToggleDarkMode) -eq $True) {
     }
 }
 else {
-    $ctttheme = 'Classic'
+    $ctttheme = 'Matrix'
 }
 $inputXML = Set-WinUtilUITheme -inputXML $inputXML -themeName $ctttheme
 

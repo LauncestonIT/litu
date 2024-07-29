@@ -55,7 +55,7 @@ if ((Get-WinUtilToggleStatus WPFToggleDarkMode) -eq $True) {
     }
 }
 else {
-    $ctttheme = 'Classic'
+    $ctttheme = 'Matrix'
 }
 $inputXML = Set-WinUtilUITheme -inputXML $inputXML -themeName $ctttheme
 
