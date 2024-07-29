@@ -1014,6 +1014,104 @@ function Install-WinUtilWinget {
         
     }
 }
+function Invoke-TextInput {
+    param (
+        [string]$LabelText = ''
+    )
+
+    <#
+
+    .SYNOPSIS
+        Prompts User for input.
+    #>
+    
+    Add-Type -AssemblyName System.Windows.Forms
+    Add-Type -AssemblyName System.Drawing
+
+    # Define custom styles
+    $fontFamily = "Aptos"
+    $fontSize = 12
+    $fontSizeHeader = 14
+    $formWidth = 380
+    $formHeight = 100
+    $backgroundColor = [System.Drawing.ColorTranslator]::FromHtml("#121212")
+    $foregroundColor = [System.Drawing.ColorTranslator]::FromHtml("#FFAC1C")
+    $buttonBackgroundColor = [System.Drawing.ColorTranslator]::FromHtml("#000019")
+    $buttonForegroundColor = [System.Drawing.ColorTranslator]::FromHtml("#cca365")
+    $borderColor = [System.Drawing.ColorTranslator]::FromHtml("#555555")
+
+    # Create a new form
+    $form = New-Object System.Windows.Forms.Form
+    $form.Text = $FormTitle
+    $form.Size = New-Object System.Drawing.Size($formWidth, $formHeight)
+    $form.StartPosition = 'CenterScreen'
+    $form.BackColor = $backgroundColor
+    $form.ForeColor = $foregroundColor
+    $form.FormBorderStyle = [System.Windows.Forms.FormBorderStyle]::FixedDialog
+    $form.MaximizeBox = $false
+    $form.FormBorderStyle = [System.Windows.Forms.FormBorderStyle]::None
+
+    # Create a label
+    $label = New-Object System.Windows.Forms.Label
+    $label.Text = $LabelText
+    $label.AutoSize = $true
+    $label.Location = New-Object System.Drawing.Point(10, 20)
+    $label.Font = New-Object System.Drawing.Font($fontFamily, $fontSizeHeader)
+    $label.BackColor = $backgroundColor
+    $label.ForeColor = $foregroundColor
+    $form.Controls.Add($label)
+    $form.FormBorderStyle = [System.Windows.Forms.FormBorderStyle]::None
+
+    # Add a paint event to draw the border
+    $form.Add_Paint({
+        param ($sender, $e)
+        $pen = New-Object System.Drawing.Pen($foregroundColor, 2)
+        $e.Graphics.DrawRectangle($pen, 0, 0, $form.Width - 1, $form.Height - 1)
+        $pen.Dispose()
+    })
+
+
+    # Create a textbox
+    $textbox = New-Object System.Windows.Forms.TextBox
+    $textbox.Size = New-Object System.Drawing.Size(360, 20)
+    $textbox.Location = New-Object System.Drawing.Point(10, 50)
+    $textbox.Font = New-Object System.Drawing.Font($fontFamily, $fontSize)
+    $textbox.BackColor = $backgroundColor
+    $textbox.ForeColor = $foregroundColor
+    $textbox.BorderStyle = [System.Windows.Forms.BorderStyle]::FixedSingle
+    $form.Controls.Add($textbox)
+    
+
+    # Create a button
+    $button = New-Object System.Windows.Forms.Button
+    $button.Text = 'OKie'
+    $button.Size = New-Object System.Drawing.Size(100, 25)
+    $button.Location = New-Object System.Drawing.Point(150, 100)
+    $button.Font = New-Object System.Drawing.Font($fontFamily, $fontSize)
+    $button.BackColor = $buttonBackgroundColor
+    $button.ForeColor = $buttonForegroundColor
+    $button.FlatStyle = [System.Windows.Forms.FlatStyle]::Flat
+    $button.FlatAppearance.BorderColor = $buttonBorderColor
+    $button.FlatAppearance.BorderSize = 1
+    $button.Add_Click({
+        $form.DialogResult = [System.Windows.Forms.DialogResult]::OK
+        $form.Close()
+    })
+    $form.Controls.Add($button)
+
+    # Set the OK button as the AcceptButton of the form
+    $form.AcceptButton = $button
+
+    # Show the form
+    $form.Topmost = $true
+    $form.Add_Shown({$form.Activate()})
+    $null = $form.ShowDialog()
+    # Get the user input
+    return $textbox.Text
+}
+
+$url = Invoke-TextInput -LabelText "Enter Hudu URL"
+write-host $url
 function Invoke-WinUtilBingSearch {
     <#
 
@@ -3251,8 +3349,6 @@ function Invoke-WPFInstallComet {
         Set-Location $env:USERPROFILE
     }
 }
-
-Write-Host "yo"
 function Invoke-WPFInstallUpgrade {
     <#
 
@@ -4180,644 +4276,646 @@ function Invoke-WPFUpdatessecurity {
         Write-Host "================================="
 }
 $sync.configs.applications = '{
-  "WPFInstallWPFInstall1password": {
-    "category": "Password Managers",
-    "content": "1Password",
-    "description": "1Password is a password manager that allows you to store and manage your passwords securely.",
-    "link": "https://1password.com/",
-    "winget": "AgileBits.1Password"
-  },
-  "WPFInstallWPFInstall7zip": {
-    "category": "Utilities",
-    "content": "7-Zip",
-    "description": "7-Zip is a free and open-source file archiver utility. It supports several compression formats and provides a high compression ratio, making it a popular choice for file compression.",
-    "link": "https://www.7-zip.org/",
-    "winget": "7zip.7zip"
-  },
-  "WPFInstallWPFInstalladobe": {
-    "category": "Office",
-    "content": "Adobe Reader DC",
-    "description": "Adobe Reader DC is a free PDF viewer with essential features for viewing, printing, and annotating PDF documents.",
-    "link": "https://acrobat.adobe.com/",
-    "winget": "Adobe.Acrobat.Reader.64-bit"
-  },
-  "WPFInstallWPFInstalladvancedip": {
-    "category": "Network",
-    "content": "Advanced IP Scanner",
-    "description": "Advanced IP Scanner is a fast and easy-to-use network scanner. It is designed to analyze LAN networks and provides information about connected devices.",
-    "link": "https://www.advanced-ip-scanner.com/",
-    "winget": "Famatech.AdvancedIPScanner"
-  },
-  "WPFInstallWPFInstallanydesk": {
-    "category": "Remote Support",
-    "content": "AnyDesk",
-    "description": "AnyDesk is a remote desktop software that enables users to access and control computers remotely. It is known for its fast connection and low latency.",
-    "link": "https://anydesk.com/",
-    "winget": "AnyDeskSoftwareGmbH.AnyDesk"
-  },
-  "WPFInstallWPFInstallbitwarden": {
-    "category": "Password Managers",
-    "content": "Bitwarden",
-    "description": "Bitwarden is an open-source password management solution. It allows users to store and manage their passwords in a secure and encrypted vault, accessible across multiple devices.",
-    "link": "https://bitwarden.com/",
-    "winget": "Bitwarden.Bitwarden"
-  },
-  "WPFInstallWPFInstallchrome": {
-    "category": "Browsers",
-    "content": "Chrome",
-    "description": "Google Chrome is a widely used web browser known for its speed, simplicity, and seamless integration with Google services.",
-    "link": "https://www.google.com/chrome/",
-    "winget": "Google.Chrome"
-  },
-  "WPFInstallWPFInstallcomet": {
-    "category": "Backup",
-    "content": "Comet Backup",
-    "description": "Comet is a backup solution for MSPs &#38; IT teams.",
-    "link": "https://comet.launcestonit.com.au/",
-    "winget": "CometBackup"
-  },
-  "WPFInstallWPFInstalldrawio": {
-    "category": "Multimedia Tools",
-    "content": "draw.io",
-    "description": "draw.io is free online diagram software for making flowcharts, process diagrams, org charts, UML, ER and network diagrams.",
-    "link": "https://app.diagrams.net/",
-    "winget": "JGraph.Draw"
-  },
-  "WPFInstallWPFInstalledge": {
-    "category": "Browsers",
-    "content": "Edge",
-    "description": "Microsoft Edge is a modern web browser built on Chromium, offering performance, security, and integration with Microsoft services.",
-    "link": "https://www.microsoft.com/edge",
-    "winget": "Microsoft.Edge"
-  },
-  "WPFInstallWPFInstallesearch": {
-    "category": "Utilities",
-    "content": "Everything Search",
-    "description": "Everything Search is a fast and efficient file search utility for Windows.",
-    "link": "https://www.voidtools.com/",
-    "winget": "voidtools.Everything"
-  },
-  "WPFInstallWPFInstalletcher": {
-    "category": "Utilities",
-    "content": "Etcher USB Creator",
-    "description": "Etcher is a powerful tool for creating bootable USB drives with ease.",
-    "link": "https://www.balena.io/etcher/",
-    "winget": "Balena.Etcher"
-  },
-  "WPFInstallWPFInstallfileconverter": {
-    "category": "Utilities",
-    "content": "File Converter",
-    "description": "File Converter is a very simple tool which allows you to convert and compress one or several file(s) using the context menu in windows explorer.",
-    "link": "https://file-converter.org/",
-    "winget": "AdrienAllard.FileConverter"
-  },
-  "WPFInstallWPFInstallfirefox": {
-    "category": "Browsers",
-    "content": "Firefox",
-    "description": "Mozilla Firefox is an open-source web browser known for its customization options, privacy features, and extensions.",
-    "link": "https://www.mozilla.org/en-US/firefox/new/",
-    "winget": "Mozilla.Firefox"
-  },
-  "WPFInstallWPFInstallflameshot": {
-    "category": "Multimedia Tools",
-    "content": "Flameshot",
-    "description": "Flameshot is a free and open-source, cross-platform tool to take screenshots with many built-in features to save you time.",
-    "link": "https://flameshot.org/",
-    "winget": "Flameshot.Flameshot"
-  },
-  "WPFInstallWPFInstallgimp": {
-    "category": "Multimedia Tools",
-    "content": "GIMP (Image Editor)",
-    "description": "GIMP is a versatile open-source raster graphics editor used for tasks such as photo retouching, image editing, and image composition.",
-    "link": "https://www.gimp.org/",
-    "winget": "GIMP.GIMP"
-  },
-  "WPFInstallWPFInstallgit": {
-    "category": "Development",
-    "content": "Git",
-    "description": "Git is a distributed version control system widely used for tracking changes in source code during software development.",
-    "link": "https://git-scm.com/",
-    "winget": "Git.Git"
-  },
-  "WPFInstallWPFInstallgithubdesktop": {
-    "category": "Development",
-    "content": "GitHub Desktop",
-    "description": "GitHub Desktop is a visual Git client that simplifies collaboration on GitHub repositories with an easy-to-use interface.",
-    "link": "https://desktop.github.com/",
-    "winget": "Git.Git;GitHub.GitHubDesktop"
-  },
-  "WPFInstallWPFInstallgreenshot": {
-    "category": "Multimedia Tools",
-    "content": "Greenshot (Screenshots)",
-    "description": "Greenshot is a light-weight screenshot software tool with built-in image editor and customizable capture options.",
-    "link": "https://getgreenshot.org/",
-    "winget": "Greenshot.Greenshot"
-  },
-  "WPFInstallWPFInstallitunes": {
-    "category": "Multimedia Tools",
-    "content": "iTunes",
-    "description": "iTunes is a media player, media library, and online radio broadcaster application developed by Apple Inc.",
-    "link": "https://www.apple.com/itunes/",
-    "winget": "Apple.iTunes"
-  },
-  "WPFInstallWPFInstalllocalsend": {
-    "category": "Utilities",
-    "content": "LocalSend",
-    "description": "An open source cross-platform alternative to AirDrop.",
-    "link": "https://localsend.org/",
-    "winget": "LocalSend.LocalSend"
-  },
-  "WPFInstallWPFInstallmicrosoft365": {
-    "category": "Office",
-    "content": "Microsoft 365",
-    "description": "Microsoft 365 is a product family of productivity software, collaboration and cloud-based services owned by Microsoft.",
-    "link": "https://www.microsoft.com/en-au/microsoft-365",
-    "winget": "Microsoft.Office"
-  },
-  "WPFInstallWPFInstallnanazip": {
-    "category": "Utilities",
-    "content": "NanaZip",
-    "description": "NanaZip is a fast and efficient file compression and decompression tool.",
-    "link": "https://github.com/M2Team/NanaZip",
-    "winget": "M2Team.NanaZip"
-  },
-  "WPFInstallWPFInstallnaps2": {
-    "category": "Office",
-    "content": "NAPS2 (Document Scanner)",
-    "description": "NAPS2 is a document scanning application that simplifies the process of creating electronic documents.",
-    "link": "https://www.naps2.com/",
-    "winget": "Cyanfish.NAPS2"
-  },
-  "WPFInstallWPFInstallnmap": {
-    "category": "Network",
-    "content": "Nmap",
-    "description": "Nmap (Network Mapper) is an open-source tool for network exploration and security auditing. It discovers devices on a network and provides information about their ports and services.",
-    "link": "https://nmap.org/",
-    "winget": "Insecure.Nmap"
-  },
-  "WPFInstallWPFInstallnotepadplusplus": {
-    "category": "Utilities",
-    "content": "Notepad++",
-    "description": "Notepad++ is a free source code editor and Notepad replacement that supports several languages.",
-    "link": "https://notepad-plus-plus.org/",
-    "winget": "Notepad++.Notepad++"
-  },
-  "WPFInstallWPFInstallonedrive": {
-    "category": "Office",
-    "content": "OneDrive",
-    "description": "OneDrive is a cloud storage service provided by Microsoft, allowing users to store and share files securely across devices.",
-    "link": "https://onedrive.live.com/",
-    "winget": "Microsoft.OneDrive"
-  },
-  "WPFInstallWPFInstallOpenVPN": {
-    "category": "Network",
-    "content": "OpenVPN Connect",
-    "description": "OpenVPN Connect is an open-source VPN client that allows you to connect securely to a VPN server. It provides a secure and encrypted connection for protecting your online privacy.",
-    "link": "https://openvpn.net/",
-    "winget": "OpenVPNTechnologies.OpenVPNConnect"
-  },
-  "WPFInstallWPFInstallPaintdotnet": {
-    "category": "Multimedia Tools",
-    "content": "Paint.net",
-    "description": "Paint.net is a free image and photo editing software for Windows. It features an intuitive user interface and supports a wide range of powerful editing tools.",
-    "link": "https://www.getpaint.net/",
-    "winget": "dotPDNLLC.paintdotnet"
-  },
-  "WPFInstallWPFInstallpowershell": {
-    "category": "Development",
-    "content": "PowerShell",
-    "description": "PowerShell is a task automation framework and scripting language designed for system administrators, offering powerful command-line capabilities.",
-    "link": "https://github.com/PowerShell/PowerShell",
-    "winget": "Microsoft.PowerShell"
-  },
-  "WPFInstallWPFInstallpowertoys": {
-    "category": "Utilities",
-    "content": "Powertoys",
-    "description": "PowerToys is a set of utilities for power users to enhance productivity, featuring tools like FancyZones, PowerRename, and more.",
-    "link": "https://github.com/microsoft/PowerToys",
-    "winget": "Microsoft.PowerToys"
-  },
-  "WPFInstallWPFInstallrufus": {
-    "category": "Utilities",
-    "content": "Rufus",
-    "description": "Rufus is a utility that helps format and create bootable USB flash drives, such as USB keys/pendrives, memory sticks, etc.",
-    "link": "https://rufus.ie/en/",
-    "winget": "Rufus.Rufus"
-  },
-  "WPFInstallWPFInstallsysinternalssuite": {
-    "category": "Utilities",
-    "content": "Sysinternals Suite",
-    "description": "The Sysinternals Troubleshooting Utilities have been rolled up into a single Suite of tools.",
-    "link": "https://learn.microsoft.com/en-us/sysinternals/downloads/sysinternals-suite",
-    "winget": "9P7KNL5RWT25"
-  },
-  "WPFInstallWPFInstallteams": {
-    "category": "Communications",
-    "content": "Teams",
-    "description": "Microsoft Teams is a collaboration platform that integrates with Office 365 and offers chat, video conferencing, file sharing, and more.",
-    "link": "https://www.microsoft.com/en-us/microsoft-teams/group-chat-software",
-    "winget": "Microsoft.Teams"
-  },
-  "WPFInstallWPFInstallterminal": {
-    "category": "Utilities",
-    "content": "Windows Terminal",
-    "description": "Windows Terminal is a modern, fast, and efficient terminal application for command-line users, supporting multiple tabs, panes, and more.",
-    "link": "https://aka.ms/terminal",
-    "winget": "Microsoft.WindowsTerminal"
-  },
-  "WPFInstallWPFInstalltodo": {
-    "category": "Office",
-    "content": "Microsoft ToDo",
-    "description": "Microsoft To Do is a cloud-based task management application. It allows users to manage their tasks from a smartphone, tablet and computer.",
-    "link": "https://to-do.office.com",
-    "winget": "9NBLGGH5R558"
-  },
-  "WPFInstallWPFInstallupscayl": {
-    "category": "Multimedia Tools",
-    "content": "Upscayl (Image Upscaler)",
-    "description": "Free and Open Source AI Image Upscaler for Linux, MacOS and Windows built with Linux-First philosophy.",
-    "link": "https://github.com/upscayl/upscayl",
-    "winget": "Upscayl.Upscayl"
-  },
-  "WPFInstallWPFInstallvlc": {
-    "category": "Multimedia Tools",
-    "content": "VLC (Video Player)",
-    "description": "VLC Media Player is a free and open-source multimedia player that supports a wide range of audio and video formats. It is known for its versatility and cross-platform compatibility.",
-    "link": "https://www.videolan.org/vlc/",
-    "winget": "VideoLAN.VLC"
-  },
-  "WPFInstallWPFInstallvscode": {
-    "category": "Development",
-    "content": "VS Code",
-    "description": "Visual Studio Code is a free, open-source code editor with support for multiple programming languages.",
-    "link": "https://code.visualstudio.com/",
-    "winget": "Git.Git;Microsoft.VisualStudioCode"
-  },
-  "WPFInstallWPFInstallwifimandesktop": {
-    "category": "Network",
-    "content": "WiFiman Desktop",
-    "description": "UniFi Device Discovery.",
-    "link": "https://www.wireshark.org/",
-    "winget": "UbiquitiInc.WiFimanDesktop"
-  },
-  "WPFInstallWPFInstallwinscp": {
-    "category": "Network",
-    "content": "WinSCP",
-    "description": "WinSCP is a free and open-source file manager, SSH File Transfer Protocol, File Transfer Protocol, WebDAV, Amazon S3, and secure copy protocol client for Microsoft Windows.",
-    "link": "https://winscp.net/eng/download.php",
-    "winget": "WinSCP.WinSCP"
-  },
-  "WPFInstallWPFInstallwireshark": {
-    "category": "Network",
-    "content": "WireShark",
-    "description": "Wireshark is a widely-used open-source network protocol analyzer. It allows users to capture and analyze network traffic in real-time, providing detailed insights into network activities.",
-    "link": "https://www.wireshark.org/",
-    "winget": "WiresharkFoundation.Wireshark"
-  },
-  "WPFInstallWPFInstallzohocliq": {
-    "category": "Communications",
-    "content": "Zoho Cliq",
-    "description": "Zoho Cliq is a communication platform with chat, video, file sharing, task management.",
-    "link": "https://www.zoho.com/cliq/",
-    "winget": "9MVPHLK2M32S"
-  },
-  "WPFInstallWPFInstallzoom": {
-    "category": "Communications",
-    "content": "Zoom",
-    "description": "Zoom is a popular video conferencing and web conferencing service for online meetings, webinars, and collaborative projects.",
-    "link": "https://zoom.us/",
-    "winget": "Zoom.Zoom"
-  }
+    "WPFInstallWPFInstall1password":  {
+                                          "category":  "Password Managers",
+                                          "content":  "1Password",
+                                          "description":  "1Password is a password manager that allows you to store and manage your passwords securely.",
+                                          "link":  "https://1password.com/",
+                                          "winget":  "AgileBits.1Password"
+                                      },
+    "WPFInstallWPFInstall7zip":  {
+                                     "category":  "Utilities",
+                                     "content":  "7-Zip",
+                                     "description":  "7-Zip is a free and open-source file archiver utility. It supports several compression formats and provides a high compression ratio, making it a popular choice for file compression.",
+                                     "link":  "https://www.7-zip.org/",
+                                     "winget":  "7zip.7zip"
+                                 },
+    "WPFInstallWPFInstalladobe":  {
+                                      "category":  "Office",
+                                      "content":  "Adobe Reader DC",
+                                      "description":  "Adobe Reader DC is a free PDF viewer with essential features for viewing, printing, and annotating PDF documents.",
+                                      "link":  "https://acrobat.adobe.com/",
+                                      "winget":  "Adobe.Acrobat.Reader.64-bit"
+                                  },
+    "WPFInstallWPFInstalladvancedip":  {
+                                           "category":  "Network",
+                                           "content":  "Advanced IP Scanner",
+                                           "description":  "Advanced IP Scanner is a fast and easy-to-use network scanner. It is designed to analyze LAN networks and provides information about connected devices.",
+                                           "link":  "https://www.advanced-ip-scanner.com/",
+                                           "winget":  "Famatech.AdvancedIPScanner"
+                                       },
+    "WPFInstallWPFInstallanydesk":  {
+                                        "category":  "Remote Support",
+                                        "content":  "AnyDesk",
+                                        "description":  "AnyDesk is a remote desktop software that enables users to access and control computers remotely. It is known for its fast connection and low latency.",
+                                        "link":  "https://anydesk.com/",
+                                        "winget":  "AnyDeskSoftwareGmbH.AnyDesk"
+                                    },
+    "WPFInstallWPFInstallbitwarden":  {
+                                          "category":  "Password Managers",
+                                          "content":  "Bitwarden",
+                                          "description":  "Bitwarden is an open-source password management solution. It allows users to store and manage their passwords in a secure and encrypted vault, accessible across multiple devices.",
+                                          "link":  "https://bitwarden.com/",
+                                          "winget":  "Bitwarden.Bitwarden"
+                                      },
+    "WPFInstallWPFInstallchrome":  {
+                                       "category":  "Browsers",
+                                       "content":  "Chrome",
+                                       "description":  "Google Chrome is a widely used web browser known for its speed, simplicity, and seamless integration with Google services.",
+                                       "link":  "https://www.google.com/chrome/",
+                                       "winget":  "Google.Chrome"
+                                   },
+    "WPFInstallWPFInstallcomet":  {
+                                      "category":  "Backup",
+                                      "content":  "Comet Backup",
+                                      "description":  "Comet is a backup solution for MSPs \u0026#38; IT teams.",
+                                      "link":  "https://comet.launcestonit.com.au/",
+                                      "winget":  "CometBackup"
+                                  },
+    "WPFInstallWPFInstalldrawio":  {
+                                       "category":  "Multimedia Tools",
+                                       "content":  "draw.io",
+                                       "description":  "draw.io is free online diagram software for making flowcharts, process diagrams, org charts, UML, ER and network diagrams.",
+                                       "link":  "https://app.diagrams.net/",
+                                       "winget":  "JGraph.Draw"
+                                   },
+    "WPFInstallWPFInstalledge":  {
+                                     "category":  "Browsers",
+                                     "content":  "Edge",
+                                     "description":  "Microsoft Edge is a modern web browser built on Chromium, offering performance, security, and integration with Microsoft services.",
+                                     "link":  "https://www.microsoft.com/edge",
+                                     "winget":  "Microsoft.Edge"
+                                 },
+    "WPFInstallWPFInstallesearch":  {
+                                        "category":  "Utilities",
+                                        "content":  "Everything Search",
+                                        "description":  "Everything Search is a fast and efficient file search utility for Windows.",
+                                        "link":  "https://www.voidtools.com/",
+                                        "winget":  "voidtools.Everything"
+                                    },
+    "WPFInstallWPFInstalletcher":  {
+                                       "category":  "Utilities",
+                                       "content":  "Etcher USB Creator",
+                                       "description":  "Etcher is a powerful tool for creating bootable USB drives with ease.",
+                                       "link":  "https://www.balena.io/etcher/",
+                                       "winget":  "Balena.Etcher"
+                                   },
+    "WPFInstallWPFInstallfileconverter":  {
+                                              "category":  "Utilities",
+                                              "content":  "File Converter",
+                                              "description":  "File Converter is a very simple tool which allows you to convert and compress one or several file(s) using the context menu in windows explorer.",
+                                              "link":  "https://file-converter.org/",
+                                              "winget":  "AdrienAllard.FileConverter"
+                                          },
+    "WPFInstallWPFInstallfirefox":  {
+                                        "category":  "Browsers",
+                                        "content":  "Firefox",
+                                        "description":  "Mozilla Firefox is an open-source web browser known for its customization options, privacy features, and extensions.",
+                                        "link":  "https://www.mozilla.org/en-US/firefox/new/",
+                                        "winget":  "Mozilla.Firefox"
+                                    },
+    "WPFInstallWPFInstallflameshot":  {
+                                          "category":  "Multimedia Tools",
+                                          "content":  "Flameshot",
+                                          "description":  "Flameshot is a free and open-source, cross-platform tool to take screenshots with many built-in features to save you time.",
+                                          "link":  "https://flameshot.org/",
+                                          "winget":  "Flameshot.Flameshot"
+                                      },
+    "WPFInstallWPFInstallgimp":  {
+                                     "category":  "Multimedia Tools",
+                                     "content":  "GIMP (Image Editor)",
+                                     "description":  "GIMP is a versatile open-source raster graphics editor used for tasks such as photo retouching, image editing, and image composition.",
+                                     "link":  "https://www.gimp.org/",
+                                     "winget":  "GIMP.GIMP"
+                                 },
+    "WPFInstallWPFInstallgit":  {
+                                    "category":  "Development",
+                                    "content":  "Git",
+                                    "description":  "Git is a distributed version control system widely used for tracking changes in source code during software development.",
+                                    "link":  "https://git-scm.com/",
+                                    "winget":  "Git.Git"
+                                },
+    "WPFInstallWPFInstallgithubdesktop":  {
+                                              "category":  "Development",
+                                              "content":  "GitHub Desktop",
+                                              "description":  "GitHub Desktop is a visual Git client that simplifies collaboration on GitHub repositories with an easy-to-use interface.",
+                                              "link":  "https://desktop.github.com/",
+                                              "winget":  "Git.Git;GitHub.GitHubDesktop"
+                                          },
+    "WPFInstallWPFInstallgreenshot":  {
+                                          "category":  "Multimedia Tools",
+                                          "content":  "Greenshot (Screenshots)",
+                                          "description":  "Greenshot is a light-weight screenshot software tool with built-in image editor and customizable capture options.",
+                                          "link":  "https://getgreenshot.org/",
+                                          "winget":  "Greenshot.Greenshot"
+                                      },
+    "WPFInstallWPFInstallitunes":  {
+                                       "category":  "Multimedia Tools",
+                                       "content":  "iTunes",
+                                       "description":  "iTunes is a media player, media library, and online radio broadcaster application developed by Apple Inc.",
+                                       "link":  "https://www.apple.com/itunes/",
+                                       "winget":  "Apple.iTunes"
+                                   },
+    "WPFInstallWPFInstalllocalsend":  {
+                                          "category":  "Utilities",
+                                          "content":  "LocalSend",
+                                          "description":  "An open source cross-platform alternative to AirDrop.",
+                                          "link":  "https://localsend.org/",
+                                          "winget":  "LocalSend.LocalSend"
+                                      },
+    "WPFInstallWPFInstallmicrosoft365":  {
+                                             "category":  "Office",
+                                             "content":  "Microsoft 365",
+                                             "description":  "Microsoft 365 is a product family of productivity software, collaboration and cloud-based services owned by Microsoft.",
+                                             "link":  "https://www.microsoft.com/en-au/microsoft-365",
+                                             "winget":  "Microsoft.Office"
+                                         },
+    "WPFInstallWPFInstallnanazip":  {
+                                        "category":  "Utilities",
+                                        "content":  "NanaZip",
+                                        "description":  "NanaZip is a fast and efficient file compression and decompression tool.",
+                                        "link":  "https://github.com/M2Team/NanaZip",
+                                        "winget":  "M2Team.NanaZip"
+                                    },
+    "WPFInstallWPFInstallnaps2":  {
+                                      "category":  "Office",
+                                      "content":  "NAPS2 (Document Scanner)",
+                                      "description":  "NAPS2 is a document scanning application that simplifies the process of creating electronic documents.",
+                                      "link":  "https://www.naps2.com/",
+                                      "winget":  "Cyanfish.NAPS2"
+                                  },
+    "WPFInstallWPFInstallnmap":  {
+                                     "category":  "Network",
+                                     "content":  "Nmap",
+                                     "description":  "Nmap (Network Mapper) is an open-source tool for network exploration and security auditing. It discovers devices on a network and provides information about their ports and services.",
+                                     "link":  "https://nmap.org/",
+                                     "winget":  "Insecure.Nmap"
+                                 },
+    "WPFInstallWPFInstallnotepadplusplus":  {
+                                                "category":  "Utilities",
+                                                "content":  "Notepad++",
+                                                "description":  "Notepad++ is a free source code editor and Notepad replacement that supports several languages.",
+                                                "link":  "https://notepad-plus-plus.org/",
+                                                "winget":  "Notepad++.Notepad++"
+                                            },
+    "WPFInstallWPFInstallonedrive":  {
+                                         "category":  "Office",
+                                         "content":  "OneDrive",
+                                         "description":  "OneDrive is a cloud storage service provided by Microsoft, allowing users to store and share files securely across devices.",
+                                         "link":  "https://onedrive.live.com/",
+                                         "winget":  "Microsoft.OneDrive"
+                                     },
+    "WPFInstallWPFInstallOpenVPN":  {
+                                        "category":  "Network",
+                                        "content":  "OpenVPN Connect",
+                                        "description":  "OpenVPN Connect is an open-source VPN client that allows you to connect securely to a VPN server. It provides a secure and encrypted connection for protecting your online privacy.",
+                                        "link":  "https://openvpn.net/",
+                                        "winget":  "OpenVPNTechnologies.OpenVPNConnect"
+                                    },
+    "WPFInstallWPFInstallPaintdotnet":  {
+                                            "category":  "Multimedia Tools",
+                                            "content":  "Paint.net",
+                                            "description":  "Paint.net is a free image and photo editing software for Windows. It features an intuitive user interface and supports a wide range of powerful editing tools.",
+                                            "link":  "https://www.getpaint.net/",
+                                            "winget":  "dotPDNLLC.paintdotnet"
+                                        },
+    "WPFInstallWPFInstallpowershell":  {
+                                           "category":  "Development",
+                                           "content":  "PowerShell",
+                                           "description":  "PowerShell is a task automation framework and scripting language designed for system administrators, offering powerful command-line capabilities.",
+                                           "link":  "https://github.com/PowerShell/PowerShell",
+                                           "winget":  "Microsoft.PowerShell"
+                                       },
+    "WPFInstallWPFInstallpowertoys":  {
+                                          "category":  "Utilities",
+                                          "content":  "Powertoys",
+                                          "description":  "PowerToys is a set of utilities for power users to enhance productivity, featuring tools like FancyZones, PowerRename, and more.",
+                                          "link":  "https://github.com/microsoft/PowerToys",
+                                          "winget":  "Microsoft.PowerToys"
+                                      },
+    "WPFInstallWPFInstallrufus":  {
+                                      "category":  "Utilities",
+                                      "content":  "Rufus",
+                                      "description":  "Rufus is a utility that helps format and create bootable USB flash drives, such as USB keys/pendrives, memory sticks, etc.",
+                                      "link":  "https://rufus.ie/en/",
+                                      "winget":  "Rufus.Rufus"
+                                  },
+    "WPFInstallWPFInstallsysinternalssuite":  {
+                                                  "category":  "Utilities",
+                                                  "content":  "Sysinternals Suite",
+                                                  "description":  "The Sysinternals Troubleshooting Utilities have been rolled up into a single Suite of tools.",
+                                                  "link":  "https://learn.microsoft.com/en-us/sysinternals/downloads/sysinternals-suite",
+                                                  "winget":  "9P7KNL5RWT25"
+                                              },
+    "WPFInstallWPFInstallteams":  {
+                                      "category":  "Communications",
+                                      "content":  "Teams",
+                                      "description":  "Microsoft Teams is a collaboration platform that integrates with Office 365 and offers chat, video conferencing, file sharing, and more.",
+                                      "link":  "https://www.microsoft.com/en-us/microsoft-teams/group-chat-software",
+                                      "winget":  "Microsoft.Teams"
+                                  },
+    "WPFInstallWPFInstallterminal":  {
+                                         "category":  "Utilities",
+                                         "content":  "Windows Terminal",
+                                         "description":  "Windows Terminal is a modern, fast, and efficient terminal application for command-line users, supporting multiple tabs, panes, and more.",
+                                         "link":  "https://aka.ms/terminal",
+                                         "winget":  "Microsoft.WindowsTerminal"
+                                     },
+    "WPFInstallWPFInstalltodo":  {
+                                     "category":  "Office",
+                                     "content":  "Microsoft ToDo",
+                                     "description":  "Microsoft To Do is a cloud-based task management application. It allows users to manage their tasks from a smartphone, tablet and computer.",
+                                     "link":  "https://to-do.office.com",
+                                     "winget":  "9NBLGGH5R558"
+                                 },
+    "WPFInstallWPFInstallupscayl":  {
+                                        "category":  "Multimedia Tools",
+                                        "content":  "Upscayl (Image Upscaler)",
+                                        "description":  "Free and Open Source AI Image Upscaler for Linux, MacOS and Windows built with Linux-First philosophy.",
+                                        "link":  "https://github.com/upscayl/upscayl",
+                                        "winget":  "Upscayl.Upscayl"
+                                    },
+    "WPFInstallWPFInstallvlc":  {
+                                    "category":  "Multimedia Tools",
+                                    "content":  "VLC (Video Player)",
+                                    "description":  "VLC Media Player is a free and open-source multimedia player that supports a wide range of audio and video formats. It is known for its versatility and cross-platform compatibility.",
+                                    "link":  "https://www.videolan.org/vlc/",
+                                    "winget":  "VideoLAN.VLC"
+                                },
+    "WPFInstallWPFInstallvscode":  {
+                                       "category":  "Development",
+                                       "content":  "VS Code",
+                                       "description":  "Visual Studio Code is a free, open-source code editor with support for multiple programming languages.",
+                                       "link":  "https://code.visualstudio.com/",
+                                       "winget":  "Git.Git;Microsoft.VisualStudioCode"
+                                   },
+    "WPFInstallWPFInstallwifimandesktop":  {
+                                               "category":  "Network",
+                                               "content":  "WiFiman Desktop",
+                                               "description":  "UniFi Device Discovery.",
+                                               "link":  "https://www.wireshark.org/",
+                                               "winget":  "UbiquitiInc.WiFimanDesktop"
+                                           },
+    "WPFInstallWPFInstallwinscp":  {
+                                       "category":  "Network",
+                                       "content":  "WinSCP",
+                                       "description":  "WinSCP is a free and open-source file manager, SSH File Transfer Protocol, File Transfer Protocol, WebDAV, Amazon S3, and secure copy protocol client for Microsoft Windows.",
+                                       "link":  "https://winscp.net/eng/download.php",
+                                       "winget":  "WinSCP.WinSCP"
+                                   },
+    "WPFInstallWPFInstallwireshark":  {
+                                          "category":  "Network",
+                                          "content":  "WireShark",
+                                          "description":  "Wireshark is a widely-used open-source network protocol analyzer. It allows users to capture and analyze network traffic in real-time, providing detailed insights into network activities.",
+                                          "link":  "https://www.wireshark.org/",
+                                          "winget":  "WiresharkFoundation.Wireshark"
+                                      },
+    "WPFInstallWPFInstallzohocliq":  {
+                                         "category":  "Communications",
+                                         "content":  "Zoho Cliq",
+                                         "description":  "Zoho Cliq is a communication platform with chat, video, file sharing, task management.",
+                                         "link":  "https://www.zoho.com/cliq/",
+                                         "winget":  "9MVPHLK2M32S"
+                                     },
+    "WPFInstallWPFInstallzoom":  {
+                                     "category":  "Communications",
+                                     "content":  "Zoom",
+                                     "description":  "Zoom is a popular video conferencing and web conferencing service for online meetings, webinars, and collaborative projects.",
+                                     "link":  "https://zoom.us/",
+                                     "winget":  "Zoom.Zoom"
+                                 }
 }' | convertfrom-json
 $sync.configs.dns = '{
-  "Google": {
-    "Primary": "8.8.8.8",
-    "Secondary": "8.8.4.4",
-    "Primary6": "2001:4860:4860::8888",
-    "Secondary6": "2001:4860:4860::8844"
-  },
-  "Cloudflare": {
-    "Primary": "1.1.1.1",
-    "Secondary": "1.0.0.1",
-    "Primary6": "2606:4700:4700::1111",
-    "Secondary6": "2606:4700:4700::1001"
-  },
-  "Cloudflare_Malware": {
-    "Primary": "1.1.1.2",
-    "Secondary": "1.0.0.2",
-    "Primary6": "2606:4700:4700::1112",
-    "Secondary6": "2606:4700:4700::1002"
-  },
-  "Cloudflare_Malware_Adult": {
-    "Primary": "1.1.1.3",
-    "Secondary": "1.0.0.3",
-    "Primary6": "2606:4700:4700::1113",
-    "Secondary6": "2606:4700:4700::1003"
-  },
-  "Open_DNS": {
-    "Primary": "208.67.222.222",
-    "Secondary": "208.67.220.220",
-    "Primary6": "2620:119:35::35",
-    "Secondary6": "2620:119:53::53"
-  },
-  "Quad9": {
-    "Primary": "9.9.9.9",
-    "Secondary": "149.112.112.112",
-    "Primary6": "2620:fe::fe",
-    "Secondary6": "2620:fe::9"
-  },
-  "AdGuard_Ads_Trackers": {
-    "Primary": "94.140.14.14",
-    "Secondary": "94.140.15.15",
-    "Primary6": "2a10:50c0::ad1:ff",
-    "Secondary6": "2a10:50c0::ad2:ff"
-  },
-  "AdGuard_Ads_Trackers_Malware_Adult": {
-    "Primary": "94.140.14.15",
-    "Secondary": "94.140.15.16",
-    "Primary6": "2a10:50c0::bad1:ff",
-    "Secondary6": "2a10:50c0::bad2:ff"
-  }
+    "Google":  {
+                   "Primary":  "8.8.8.8",
+                   "Secondary":  "8.8.4.4",
+                   "Primary6":  "2001:4860:4860::8888",
+                   "Secondary6":  "2001:4860:4860::8844"
+               },
+    "Cloudflare":  {
+                       "Primary":  "1.1.1.1",
+                       "Secondary":  "1.0.0.1",
+                       "Primary6":  "2606:4700:4700::1111",
+                       "Secondary6":  "2606:4700:4700::1001"
+                   },
+    "Cloudflare_Malware":  {
+                               "Primary":  "1.1.1.2",
+                               "Secondary":  "1.0.0.2",
+                               "Primary6":  "2606:4700:4700::1112",
+                               "Secondary6":  "2606:4700:4700::1002"
+                           },
+    "Cloudflare_Malware_Adult":  {
+                                     "Primary":  "1.1.1.3",
+                                     "Secondary":  "1.0.0.3",
+                                     "Primary6":  "2606:4700:4700::1113",
+                                     "Secondary6":  "2606:4700:4700::1003"
+                                 },
+    "Open_DNS":  {
+                     "Primary":  "208.67.222.222",
+                     "Secondary":  "208.67.220.220",
+                     "Primary6":  "2620:119:35::35",
+                     "Secondary6":  "2620:119:53::53"
+                 },
+    "Quad9":  {
+                  "Primary":  "9.9.9.9",
+                  "Secondary":  "149.112.112.112",
+                  "Primary6":  "2620:fe::fe",
+                  "Secondary6":  "2620:fe::9"
+              },
+    "AdGuard_Ads_Trackers":  {
+                                 "Primary":  "94.140.14.14",
+                                 "Secondary":  "94.140.15.15",
+                                 "Primary6":  "2a10:50c0::ad1:ff",
+                                 "Secondary6":  "2a10:50c0::ad2:ff"
+                             },
+    "AdGuard_Ads_Trackers_Malware_Adult":  {
+                                               "Primary":  "94.140.14.15",
+                                               "Secondary":  "94.140.15.16",
+                                               "Primary6":  "2a10:50c0::bad1:ff",
+                                               "Secondary6":  "2a10:50c0::bad2:ff"
+                                           }
 }' | convertfrom-json
 $sync.configs.feature = '{
-  "WPFFeaturesdotnet": {
-    "Content": "All .Net Framework (2,3,4)",
-    "Description": ".NET and .NET Framework is a developer platform made up of tools, programming languages, and libraries for building many different types of applications.",
-    "category": "Features",
-    "panel": "1",
-    "Order": "a010_",
-    "feature": [
-      "NetFx4-AdvSrvs",
-      "NetFx3"
-    ],
-    "InvokeScript": []
-  },
-  "WPFFeatureshyperv": {
-    "Content": "HyperV Virtualization",
-    "Description": "Hyper-V is a hardware virtualization product developed by Microsoft that allows users to create and manage virtual machines.",
-    "category": "Features",
-    "panel": "1",
-    "Order": "a011_",
-    "feature": [
-      "HypervisorPlatform",
-      "Microsoft-Hyper-V-All",
-      "Microsoft-Hyper-V",
-      "Microsoft-Hyper-V-Tools-All",
-      "Microsoft-Hyper-V-Management-PowerShell",
-      "Microsoft-Hyper-V-Hypervisor",
-      "Microsoft-Hyper-V-Services",
-      "Microsoft-Hyper-V-Management-Clients"
-    ],
-    "InvokeScript": [
-      "Start-Process -FilePath cmd.exe -ArgumentList ''/c bcdedit /set hypervisorschedulertype classic'' -Wait"
-    ]
-  },
-  "WPFFeatureInstall": {
-    "Content": "Install Features",
-    "category": "Features",
-    "panel": "1",
-    "Order": "a060_",
-    "Type": "Button",
-    "ButtonWidth": "300"
-  },
-  "WPFFixesUpdate": {
-    "Content": "Reset Windows Update",
-    "category": "Fixes",
-    "panel": "1",
-    "Order": "a041_",
-    "Type": "Button",
-    "ButtonWidth": "300"
-  },
-  "WPFFixesNetwork": {
-    "Content": "Reset Network",
-    "category": "Fixes",
-    "Order": "a042_",
-    "panel": "1",
-    "Type": "Button",
-    "ButtonWidth": "300"
-  },
-  "WPFPanelDISM": {
-    "Content": "System Corruption Scan",
-    "category": "Fixes",
-    "panel": "1",
-    "Order": "a043_",
-    "Type": "Button",
-    "ButtonWidth": "300"
-  },
-  "WPFFixesWinget": {
-    "Content": "WinGet Reinstall",
-    "category": "Fixes",
-    "panel": "1",
-    "Order": "a044_",
-    "Type": "Button",
-    "ButtonWidth": "300"
-  },
-  "WPFPanelnetwork": {
-    "Content": "Network Connections",
-    "category": "Legacy Windows Panels",
-    "panel": "2",
-    "Type": "Button",
-    "ButtonWidth": "300"
-  },
-  "WPFPanelcontrol": {
-    "Content": "Control Panel",
-    "category": "Legacy Windows Panels",
-    "panel": "2",
-    "Type": "Button",
-    "ButtonWidth": "300"
-  },
-  "WPFPanelpower": {
-    "Content": "Power Panel",
-    "category": "Legacy Windows Panels",
-    "panel": "2",
-    "Type": "Button",
-    "ButtonWidth": "300"
-  },
-  "WPFPanelregion": {
-    "Content": "Region",
-    "category": "Legacy Windows Panels",
-    "panel": "2",
-    "Type": "Button",
-    "ButtonWidth": "300"
-  },
-  "WPFPanelsound": {
-    "Content": "Sound Settings",
-    "category": "Legacy Windows Panels",
-    "panel": "2",
-    "Type": "Button",
-    "ButtonWidth": "300"
-  },
-  "WPFPanelsystem": {
-    "Content": "System Properties",
-    "category": "Legacy Windows Panels",
-    "panel": "2",
-    "Type": "Button",
-    "ButtonWidth": "300"
-  },
-  "WPFPaneluser": {
-    "Content": "User Accounts",
-    "category": "Legacy Windows Panels",
-    "panel": "2",
-    "Type": "Button",
-    "ButtonWidth": "300"
-  }
+    "WPFFeaturesdotnet":  {
+                              "Content":  "All .Net Framework (2,3,4)",
+                              "Description":  ".NET and .NET Framework is a developer platform made up of tools, programming languages, and libraries for building many different types of applications.",
+                              "category":  "Features",
+                              "panel":  "1",
+                              "Order":  "a010_",
+                              "feature":  [
+                                              "NetFx4-AdvSrvs",
+                                              "NetFx3"
+                                          ],
+                              "InvokeScript":  [
+
+                                               ]
+                          },
+    "WPFFeatureshyperv":  {
+                              "Content":  "HyperV Virtualization",
+                              "Description":  "Hyper-V is a hardware virtualization product developed by Microsoft that allows users to create and manage virtual machines.",
+                              "category":  "Features",
+                              "panel":  "1",
+                              "Order":  "a011_",
+                              "feature":  [
+                                              "HypervisorPlatform",
+                                              "Microsoft-Hyper-V-All",
+                                              "Microsoft-Hyper-V",
+                                              "Microsoft-Hyper-V-Tools-All",
+                                              "Microsoft-Hyper-V-Management-PowerShell",
+                                              "Microsoft-Hyper-V-Hypervisor",
+                                              "Microsoft-Hyper-V-Services",
+                                              "Microsoft-Hyper-V-Management-Clients"
+                                          ],
+                              "InvokeScript":  [
+                                                   "Start-Process -FilePath cmd.exe -ArgumentList \u0027\u0027/c bcdedit /set hypervisorschedulertype classic\u0027\u0027 -Wait"
+                                               ]
+                          },
+    "WPFFeatureInstall":  {
+                              "Content":  "Install Features",
+                              "category":  "Features",
+                              "panel":  "1",
+                              "Order":  "a060_",
+                              "Type":  "Button",
+                              "ButtonWidth":  "300"
+                          },
+    "WPFFixesUpdate":  {
+                           "Content":  "Reset Windows Update",
+                           "category":  "Fixes",
+                           "panel":  "1",
+                           "Order":  "a041_",
+                           "Type":  "Button",
+                           "ButtonWidth":  "300"
+                       },
+    "WPFFixesNetwork":  {
+                            "Content":  "Reset Network",
+                            "category":  "Fixes",
+                            "Order":  "a042_",
+                            "panel":  "1",
+                            "Type":  "Button",
+                            "ButtonWidth":  "300"
+                        },
+    "WPFPanelDISM":  {
+                         "Content":  "System Corruption Scan",
+                         "category":  "Fixes",
+                         "panel":  "1",
+                         "Order":  "a043_",
+                         "Type":  "Button",
+                         "ButtonWidth":  "300"
+                     },
+    "WPFFixesWinget":  {
+                           "Content":  "WinGet Reinstall",
+                           "category":  "Fixes",
+                           "panel":  "1",
+                           "Order":  "a044_",
+                           "Type":  "Button",
+                           "ButtonWidth":  "300"
+                       },
+    "WPFPanelnetwork":  {
+                            "Content":  "Network Connections",
+                            "category":  "Legacy Windows Panels",
+                            "panel":  "2",
+                            "Type":  "Button",
+                            "ButtonWidth":  "300"
+                        },
+    "WPFPanelcontrol":  {
+                            "Content":  "Control Panel",
+                            "category":  "Legacy Windows Panels",
+                            "panel":  "2",
+                            "Type":  "Button",
+                            "ButtonWidth":  "300"
+                        },
+    "WPFPanelpower":  {
+                          "Content":  "Power Panel",
+                          "category":  "Legacy Windows Panels",
+                          "panel":  "2",
+                          "Type":  "Button",
+                          "ButtonWidth":  "300"
+                      },
+    "WPFPanelregion":  {
+                           "Content":  "Region",
+                           "category":  "Legacy Windows Panels",
+                           "panel":  "2",
+                           "Type":  "Button",
+                           "ButtonWidth":  "300"
+                       },
+    "WPFPanelsound":  {
+                          "Content":  "Sound Settings",
+                          "category":  "Legacy Windows Panels",
+                          "panel":  "2",
+                          "Type":  "Button",
+                          "ButtonWidth":  "300"
+                      },
+    "WPFPanelsystem":  {
+                           "Content":  "System Properties",
+                           "category":  "Legacy Windows Panels",
+                           "panel":  "2",
+                           "Type":  "Button",
+                           "ButtonWidth":  "300"
+                       },
+    "WPFPaneluser":  {
+                         "Content":  "User Accounts",
+                         "category":  "Legacy Windows Panels",
+                         "panel":  "2",
+                         "Type":  "Button",
+                         "ButtonWidth":  "300"
+                     }
 }' | convertfrom-json
 $sync.configs.preset = '{
-  "Standard": [
-    "WPFTweaksAH",
-    "WPFTweaksConsumerFeatures",
-    "WPFTweaksDVR",
-    "WPFTweaksHiber",
-    "WPFTweaksHome",
-    "WPFTweaksLoc",
-    "WPFTweaksServices",
-    "WPFTweaksStorage",
-    "WPFTweaksTele",
-    "WPFTweaksWifi",
-    "WPFTweaksDiskCleanup",
-    "WPFTweaksDeleteTempFiles",
-    "WPFTweaksEndTaskOnTaskbar",
-    "WPFTweaksRestorePoint",
-    "WPFTweaksTeredo",
-    "WPFTweaksPowershell7Tele"
-  ],
-  "Minimal": [
-    "WPFTweaksConsumerFeatures",
-    "WPFTweaksHome",
-    "WPFTweaksServices",
-    "WPFTweaksTele"
-  ]
+    "Standard":  [
+                     "WPFTweaksAH",
+                     "WPFTweaksConsumerFeatures",
+                     "WPFTweaksDVR",
+                     "WPFTweaksHiber",
+                     "WPFTweaksHome",
+                     "WPFTweaksLoc",
+                     "WPFTweaksServices",
+                     "WPFTweaksStorage",
+                     "WPFTweaksTele",
+                     "WPFTweaksWifi",
+                     "WPFTweaksDiskCleanup",
+                     "WPFTweaksDeleteTempFiles",
+                     "WPFTweaksEndTaskOnTaskbar",
+                     "WPFTweaksRestorePoint",
+                     "WPFTweaksTeredo",
+                     "WPFTweaksPowershell7Tele"
+                 ],
+    "Minimal":  [
+                    "WPFTweaksConsumerFeatures",
+                    "WPFTweaksHome",
+                    "WPFTweaksServices",
+                    "WPFTweaksTele"
+                ]
 }' | convertfrom-json
 $sync.configs.themes = '{
-  "Classic": {
-    "CustomDialogFontSize": "12",
-    "CustomDialogFontSizeHeader": "14",
-    "CustomDialogIconSize": "25",
-    "CustomDialogWidth": "400",
-    "CustomDialogHeight": "200",
-    "FontSize": "12",
-    "FontFamily": "Arial",
-    "FontSizeHeading": "14",
-    "HeaderFontFamily": "Consolas, Monaco",
-    "CheckBoxBulletDecoratorFontSize": "14",
-    "CheckBoxMargin": "15,0,0,2",
-    "TabButtonFontSize": "14",
-    "TabButtonWidth": "100",
-    "TabButtonHeight": "25",
-    "TabRowHeightInPixels": "50",
-    "IconFontSize": "14",
-    "IconButtonSize": "35",
-    "WinUtilIconSize": "Auto",
-    "SettingsIconFontSize": "18",
-    "ComboBoxBackgroundColor": "#FFFFFF",
-    "LabelboxForegroundColor": "#000000",
-    "MainForegroundColor": "#000000",
-    "MainBackgroundColor": "#FFFFFF",
-    "LabelBackgroundColor": "#FAFAFA",
-    "LinkForegroundColor": "#000000",
-    "LinkHoverForegroundColor": "#000000",
-    "GroupBorderBackgroundColor": "#000000",
-    "ComboBoxForegroundColor": "#000000",
-    "ButtonFontSize": "12",
-    "ButtonFontFamily": "Arial",
-    "ButtonWidth": "200",
-    "ButtonHeight": "25",
-    "ConfigTabButtonFontSize": "16",
-    "SearchBarWidth": "200",
-    "SearchBarHeight": "25",
-    "SearchBarTextBoxFontSize": "16",
-    "SearchBarClearButtonFontSize": "14",
-    "ButtonInstallBackgroundColor": "#FFFFFF",
-    "ButtonTweaksBackgroundColor": "#FFFFFF",
-    "ButtonConfigBackgroundColor": "#FFFFFF",
-    "ButtonUpdatesBackgroundColor": "#FFFFFF",
-    "ButtonInstallForegroundColor": "#000000",
-    "ButtonTweaksForegroundColor": "#000000",
-    "ButtonConfigForegroundColor": "#000000",
-    "ButtonUpdatesForegroundColor": "#000000",
-    "ButtonBackgroundColor": "#F5F5F5",
-    "ButtonBackgroundPressedColor": "#1A1A1A",
-    "CheckboxMouseOverColor": "#999999",
-    "ButtonBackgroundMouseoverColor": "#C2C2C2",
-    "ButtonBackgroundSelectedColor": "#F0F0F0",
-    "ButtonForegroundColor": "#000000",
-    "ToggleButtonOnColor": "#2e77ff",
-    "ButtonBorderThickness": "1",
-    "ButtonMargin": "1",
-    "ButtonCornerRadius": "2",
-    "BorderColor": "#000000",
-    "BorderOpacity": "0.2",
-    "ShadowPulse": "Forever"
-  },
-  "Matrix": {
-    "CustomDialogFontSize": "12",
-    "CustomDialogFontSizeHeader": "14",
-    "CustomDialogIconSize": "25",
-    "CustomDialogWidth": "400",
-    "CustomDialogHeight": "200",
-    "FontSize": "12",
-    "FontFamily": "Aptos",
-    "FontSizeHeading": "14",
-    "HeaderFontFamily": "Aptos, Aptos",
-    "CheckBoxBulletDecoratorFontSize": "14",
-    "CheckBoxMargin": "15,0,0,2",
-    "TabButtonFontSize": "14",
-    "TabButtonWidth": "100",
-    "TabButtonHeight": "25",
-    "TabRowHeightInPixels": "50",
-    "IconFontSize": "14",
-    "IconButtonSize": "35",
-    "WinUtilIconSize": "Auto",
-    "SettingsIconFontSize": "18",
-    "ComboBoxBackgroundColor": "#121212",
-    "LabelboxForegroundColor": "#FFAC1C",
-    "MainForegroundColor": "#cca365",
-    "MainBackgroundColor": "#121212",
-    "LabelBackgroundColor": "#121212",
-    "LinkForegroundColor": "#add8e6",
-    "LinkHoverForegroundColor": "#FFFFFF",
-    "ComboBoxForegroundColor": "#FFAC1C",
-    "ButtonFontSize": "12",
-    "ButtonFontFamily": "Aptos",
-    "ButtonWidth": "200",
-    "ButtonHeight": "25",
-    "ConfigTabButtonFontSize": "16",
-    "SearchBarWidth": "200",
-    "SearchBarHeight": "25",
-    "SearchBarTextBoxFontSize": "16",
-    "SearchBarClearButtonFontSize": "14",
-    "ButtonInstallBackgroundColor": "#222222",
-    "ButtonTweaksBackgroundColor": "#333333",
-    "ButtonConfigBackgroundColor": "#444444",
-    "ButtonUpdatesBackgroundColor": "#555555",
-    "ButtonInstallForegroundColor": "#FFFFFF",
-    "ButtonTweaksForegroundColor": "#FFFFFF",
-    "ButtonConfigForegroundColor": "#FFFFFF",
-    "ButtonUpdatesForegroundColor": "#FFFFFF",
-    "ButtonBackgroundColor": "#000019",
-    "ButtonBackgroundPressedColor": "#FFFFFF",
-    "ButtonBackgroundMouseoverColor": "#38332a",
-    "ButtonBackgroundSelectedColor": "#FFAC1C",
-    "ButtonForegroundColor": "#cca365",
-    "ToggleButtonOnColor": "#2e77ff",
-    "ButtonBorderThickness": "1",
-    "ButtonMargin": "1",
-    "ButtonCornerRadius": "2",
-    "BorderColor": "#FFAC1C",
-    "BorderOpacity": "0.8",
-    "ShadowPulse": "0:0:3"
-  }
+    "Classic":  {
+                    "CustomDialogFontSize":  "12",
+                    "CustomDialogFontSizeHeader":  "14",
+                    "CustomDialogIconSize":  "25",
+                    "CustomDialogWidth":  "400",
+                    "CustomDialogHeight":  "200",
+                    "FontSize":  "12",
+                    "FontFamily":  "Arial",
+                    "FontSizeHeading":  "14",
+                    "HeaderFontFamily":  "Aptos, Aptos",
+                    "CheckBoxBulletDecoratorFontSize":  "14",
+                    "CheckBoxMargin":  "15,0,0,2",
+                    "TabButtonFontSize":  "14",
+                    "TabButtonWidth":  "100",
+                    "TabButtonHeight":  "25",
+                    "TabRowHeightInPixels":  "50",
+                    "IconFontSize":  "14",
+                    "IconButtonSize":  "35",
+                    "WinUtilIconSize":  "Auto",
+                    "SettingsIconFontSize":  "18",
+                    "ComboBoxBackgroundColor":  "#FFFFFF",
+                    "LabelboxForegroundColor":  "#000000",
+                    "MainForegroundColor":  "#000000",
+                    "MainBackgroundColor":  "#FFFFFF",
+                    "LabelBackgroundColor":  "#FAFAFA",
+                    "LinkForegroundColor":  "#000000",
+                    "LinkHoverForegroundColor":  "#000000",
+                    "GroupBorderBackgroundColor":  "#000000",
+                    "ComboBoxForegroundColor":  "#000000",
+                    "ButtonFontSize":  "12",
+                    "ButtonFontFamily":  "Arial",
+                    "ButtonWidth":  "200",
+                    "ButtonHeight":  "25",
+                    "ConfigTabButtonFontSize":  "16",
+                    "SearchBarWidth":  "200",
+                    "SearchBarHeight":  "25",
+                    "SearchBarTextBoxFontSize":  "16",
+                    "SearchBarClearButtonFontSize":  "14",
+                    "ButtonInstallBackgroundColor":  "#FFFFFF",
+                    "ButtonTweaksBackgroundColor":  "#FFFFFF",
+                    "ButtonConfigBackgroundColor":  "#FFFFFF",
+                    "ButtonUpdatesBackgroundColor":  "#FFFFFF",
+                    "ButtonInstallForegroundColor":  "#000000",
+                    "ButtonTweaksForegroundColor":  "#000000",
+                    "ButtonConfigForegroundColor":  "#000000",
+                    "ButtonUpdatesForegroundColor":  "#000000",
+                    "ButtonBackgroundColor":  "#F5F5F5",
+                    "ButtonBackgroundPressedColor":  "#1A1A1A",
+                    "CheckboxMouseOverColor":  "#999999",
+                    "ButtonBackgroundMouseoverColor":  "#C2C2C2",
+                    "ButtonBackgroundSelectedColor":  "#F0F0F0",
+                    "ButtonForegroundColor":  "#000000",
+                    "ToggleButtonOnColor":  "#2e77ff",
+                    "ButtonBorderThickness":  "1",
+                    "ButtonMargin":  "1",
+                    "ButtonCornerRadius":  "2",
+                    "BorderColor":  "#000000",
+                    "BorderOpacity":  "0.2",
+                    "ShadowPulse":  "Forever"
+                },
+    "Matrix":  {
+                   "CustomDialogFontSize":  "12",
+                   "CustomDialogFontSizeHeader":  "14",
+                   "CustomDialogIconSize":  "25",
+                   "CustomDialogWidth":  "400",
+                   "CustomDialogHeight":  "200",
+                   "FontSize":  "12",
+                   "FontFamily":  "Aptos",
+                   "FontSizeHeading":  "14",
+                   "HeaderFontFamily":  "Aptos, Aptos",
+                   "CheckBoxBulletDecoratorFontSize":  "14",
+                   "CheckBoxMargin":  "15,0,0,2",
+                   "TabButtonFontSize":  "14",
+                   "TabButtonWidth":  "100",
+                   "TabButtonHeight":  "25",
+                   "TabRowHeightInPixels":  "50",
+                   "IconFontSize":  "14",
+                   "IconButtonSize":  "35",
+                   "WinUtilIconSize":  "Auto",
+                   "SettingsIconFontSize":  "18",
+                   "ComboBoxBackgroundColor":  "#121212",
+                   "LabelboxForegroundColor":  "#FFAC1C",
+                   "MainForegroundColor":  "#cca365",
+                   "MainBackgroundColor":  "#121212",
+                   "LabelBackgroundColor":  "#121212",
+                   "LinkForegroundColor":  "#add8e6",
+                   "LinkHoverForegroundColor":  "#FFFFFF",
+                   "ComboBoxForegroundColor":  "#FFAC1C",
+                   "ButtonFontSize":  "12",
+                   "ButtonFontFamily":  "Aptos",
+                   "ButtonWidth":  "200",
+                   "ButtonHeight":  "25",
+                   "ConfigTabButtonFontSize":  "16",
+                   "SearchBarWidth":  "200",
+                   "SearchBarHeight":  "25",
+                   "SearchBarTextBoxFontSize":  "16",
+                   "SearchBarClearButtonFontSize":  "14",
+                   "ButtonInstallBackgroundColor":  "#222222",
+                   "ButtonTweaksBackgroundColor":  "#333333",
+                   "ButtonConfigBackgroundColor":  "#444444",
+                   "ButtonUpdatesBackgroundColor":  "#555555",
+                   "ButtonInstallForegroundColor":  "#FFFFFF",
+                   "ButtonTweaksForegroundColor":  "#FFFFFF",
+                   "ButtonConfigForegroundColor":  "#FFFFFF",
+                   "ButtonUpdatesForegroundColor":  "#FFFFFF",
+                   "ButtonBackgroundColor":  "#000019",
+                   "ButtonBackgroundPressedColor":  "#FFFFFF",
+                   "ButtonBackgroundMouseoverColor":  "#38332a",
+                   "ButtonBackgroundSelectedColor":  "#FFAC1C",
+                   "ButtonForegroundColor":  "#cca365",
+                   "ToggleButtonOnColor":  "#2e77ff",
+                   "ButtonBorderThickness":  "1",
+                   "ButtonMargin":  "1",
+                   "ButtonCornerRadius":  "2",
+                   "BorderColor":  "#FFAC1C",
+                   "BorderOpacity":  "0.8",
+                   "ShadowPulse":  "0:0:3"
+               }
 }' | convertfrom-json
 $sync.configs.tweaks = '{
-  "WPFTweaksRestorePoint": {
-    "Content": "Create Restore Point",
-    "Description": "Creates a restore point at runtime in case a revert is needed from WinUtil modifications",
-    "category": "Essential Tweaks",
-    "panel": "1",
-    "Checked": "False",
-    "Order": "a001_",
-    "InvokeScript": [
-      "
+    "WPFTweaksRestorePoint":  {
+                                  "Content":  "Create Restore Point",
+                                  "Description":  "Creates a restore point at runtime in case a revert is needed from WinUtil modifications",
+                                  "category":  "Essential Tweaks",
+                                  "panel":  "1",
+                                  "Checked":  "False",
+                                  "Order":  "a001_",
+                                  "InvokeScript":  [
+                                                       "
         # Check if the user has administrative privileges
         if (-Not ([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator)) {
             Write-Host \"Please run this script as an administrator.\"
@@ -4835,7 +4933,7 @@ $sync.configs.tweaks = '{
         # Check if the SystemRestorePointCreationFrequency value exists
         $exists = Get-ItemProperty -path \"HKLM:\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\SystemRestore\" -Name \"SystemRestorePointCreationFrequency\" -ErrorAction SilentlyContinue
         if($null -eq $exists){
-            write-host ''Changing system to allow multiple restore points per day''
+            write-host \u0027\u0027Changing system to allow multiple restore points per day\u0027\u0027
             Set-ItemProperty -Path \"HKLM:\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\SystemRestore\" -Name \"SystemRestorePointCreationFrequency\" -Value \"0\" -Type DWord -Force -ErrorAction Stop | Out-Null
         }
 
@@ -4863,16 +4961,16 @@ $sync.configs.tweaks = '{
             Write-Host -ForegroundColor Green \"System Restore Point Created Successfully\"
         }
       "
-    ]
-  },
-  "WPFTweaksEndTaskOnTaskbar": {
-    "Content": "Enable End Task With Right Click",
-    "Description": "Enables option to end task when right clicking a program in the taskbar",
-    "category": "Essential Tweaks",
-    "panel": "1",
-    "Order": "a006_",
-    "InvokeScript": [
-      "$path = \"HKCU:\\Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Advanced\\TaskbarDeveloperSettings\"
+                                                   ]
+                              },
+    "WPFTweaksEndTaskOnTaskbar":  {
+                                      "Content":  "Enable End Task With Right Click",
+                                      "Description":  "Enables option to end task when right clicking a program in the taskbar",
+                                      "category":  "Essential Tweaks",
+                                      "panel":  "1",
+                                      "Order":  "a006_",
+                                      "InvokeScript":  [
+                                                           "$path = \"HKCU:\\Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Advanced\\TaskbarDeveloperSettings\"
       $name = \"TaskbarEndTask\"
       $value = 1
 
@@ -4881,11 +4979,11 @@ $sync.configs.tweaks = '{
         New-Item -Path $path -Force | Out-Null
       }
 
-      # Set the property, creating it if it doesn''t exist
+      # Set the property, creating it if it doesn\u0027\u0027t exist
       New-ItemProperty -Path $path -Name $name -PropertyType DWord -Value $value -Force | Out-Null"
-    ],
-    "UndoScript": [
-      "$path = \"HKCU:\\Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Advanced\\TaskbarDeveloperSettings\"
+                                                       ],
+                                      "UndoScript":  [
+                                                         "$path = \"HKCU:\\Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Advanced\\TaskbarDeveloperSettings\"
       $name = \"TaskbarEndTask\"
       $value = 0
 
@@ -4894,275 +4992,275 @@ $sync.configs.tweaks = '{
         New-Item -Path $path -Force | Out-Null
       }
 
-      # Set the property, creating it if it doesn''t exist
+      # Set the property, creating it if it doesn\u0027\u0027t exist
       New-ItemProperty -Path $path -Name $name -PropertyType DWord -Value $value -Force | Out-Null"
-    ]
-  },
-  "WPFTweaksPowershell7": {
-    "Content": "Change Windows Terminal default: PowerShell 5 -&#62; PowerShell 7",
-    "Description": "This will edit the config file of the Windows Terminal replacing PowerShell 5 with PowerShell 7 and installing PS7 if necessary",
-    "category": "Essential Tweaks",
-    "panel": "1",
-    "Order": "a009_",
-    "InvokeScript": [
-      "Invoke-WPFTweakPS7 -action \"PS7\""
-    ],
-    "UndoScript": [
-      "Invoke-WPFTweakPS7 -action \"PS5\""
-    ]
-  },
-  "WPFTweaksRemoveCopilot": {
-    "Content": "Disable Microsoft Copilot",
-    "Description": "Disables MS Copilot AI built into Windows since 23H2.",
-    "category": "Essential Tweaks",
-    "panel": "1",
-    "Order": "a025_",
-    "registry": [
-      {
-        "Path": "HKLM:\\SOFTWARE\\Policies\\Microsoft\\Windows\\WindowsCopilot",
-        "Name": "TurnOffWindowsCopilot",
-        "Type": "DWord",
-        "Value": "1",
-        "OriginalValue": "0"
-      },
-      {
-        "Path": "HKCU:\\Software\\Policies\\Microsoft\\Windows\\WindowsCopilot",
-        "Name": "TurnOffWindowsCopilot",
-        "Type": "DWord",
-        "Value": "1",
-        "OriginalValue": "0"
-      },
-      {
-        "Path": "HKCU:\\Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Advanced",
-        "Name": "ShowCopilotButton",
-        "Type": "DWord",
-        "Value": "0",
-        "OriginalValue": "1"
-      }
-    ],
-    "InvokeScript": [
-      "
+                                                     ]
+                                  },
+    "WPFTweaksPowershell7":  {
+                                 "Content":  "Change Windows Terminal default: PowerShell 5 -\u0026#62; PowerShell 7",
+                                 "Description":  "This will edit the config file of the Windows Terminal replacing PowerShell 5 with PowerShell 7 and installing PS7 if necessary",
+                                 "category":  "Essential Tweaks",
+                                 "panel":  "1",
+                                 "Order":  "a009_",
+                                 "InvokeScript":  [
+                                                      "Invoke-WPFTweakPS7 -action \"PS7\""
+                                                  ],
+                                 "UndoScript":  [
+                                                    "Invoke-WPFTweakPS7 -action \"PS5\""
+                                                ]
+                             },
+    "WPFTweaksRemoveCopilot":  {
+                                   "Content":  "Disable Microsoft Copilot",
+                                   "Description":  "Disables MS Copilot AI built into Windows since 23H2.",
+                                   "category":  "Essential Tweaks",
+                                   "panel":  "1",
+                                   "Order":  "a025_",
+                                   "registry":  [
+                                                    {
+                                                        "Path":  "HKLM:\\SOFTWARE\\Policies\\Microsoft\\Windows\\WindowsCopilot",
+                                                        "Name":  "TurnOffWindowsCopilot",
+                                                        "Type":  "DWord",
+                                                        "Value":  "1",
+                                                        "OriginalValue":  "0"
+                                                    },
+                                                    {
+                                                        "Path":  "HKCU:\\Software\\Policies\\Microsoft\\Windows\\WindowsCopilot",
+                                                        "Name":  "TurnOffWindowsCopilot",
+                                                        "Type":  "DWord",
+                                                        "Value":  "1",
+                                                        "OriginalValue":  "0"
+                                                    },
+                                                    {
+                                                        "Path":  "HKCU:\\Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Advanced",
+                                                        "Name":  "ShowCopilotButton",
+                                                        "Type":  "DWord",
+                                                        "Value":  "0",
+                                                        "OriginalValue":  "1"
+                                                    }
+                                                ],
+                                   "InvokeScript":  [
+                                                        "
       Write-Host \"Remove Copilot\"
       dism /online /remove-package /package-name:Microsoft.Windows.Copilot
       "
-    ],
-    "UndoScript": [
-      "
+                                                    ],
+                                   "UndoScript":  [
+                                                      "
       Write-Host \"Install Copilot\"
       dism /online /add-package /package-name:Microsoft.Windows.Copilot
       "
-    ]
-  },
-  "WPFTweaksRightClickMenu": {
-    "Content": "Set Classic Right-Click Menu ",
-    "Description": "Great Windows 11 tweak to bring back good context menus when right clicking things in explorer.",
-    "category": "Essential Tweaks",
-    "panel": "1",
-    "Order": "a027_",
-    "InvokeScript": [
-      "
+                                                  ]
+                               },
+    "WPFTweaksRightClickMenu":  {
+                                    "Content":  "Set Classic Right-Click Menu ",
+                                    "Description":  "Great Windows 11 tweak to bring back good context menus when right clicking things in explorer.",
+                                    "category":  "Essential Tweaks",
+                                    "panel":  "1",
+                                    "Order":  "a027_",
+                                    "InvokeScript":  [
+                                                         "
       New-Item -Path \"HKCU:\\Software\\Classes\\CLSID\\{86ca1aa0-34aa-4e8b-a509-50c905bae2a2}\" -Name \"InprocServer32\" -force -value \"\"
       Write-Host Restarting explorer.exe ...
       $process = Get-Process -Name \"explorer\"
       Stop-Process -InputObject $process
       "
-    ],
-    "UndoScript": [
-      "
+                                                     ],
+                                    "UndoScript":  [
+                                                       "
       Remove-Item -Path \"HKCU:\\Software\\Classes\\CLSID\\{86ca1aa0-34aa-4e8b-a509-50c905bae2a2}\" -Recurse -Confirm:$false -Force
       # Restarting Explorer in the Undo Script might not be necessary, as the Registry change without restarting Explorer does work, but just to make sure.
       Write-Host Restarting explorer.exe ...
       $process = Get-Process -Name \"explorer\"
       Stop-Process -InputObject $process
       "
-    ]
-  },
-  "WPFTweaksDiskCleanup": {
-    "Content": "Run Disk Cleanup",
-    "Description": "Runs Disk Cleanup on Drive C: and removes old Windows Updates.",
-    "category": "Essential Tweaks",
-    "panel": "1",
-    "Order": "a009_",
-    "InvokeScript": [
-      "
+                                                   ]
+                                },
+    "WPFTweaksDiskCleanup":  {
+                                 "Content":  "Run Disk Cleanup",
+                                 "Description":  "Runs Disk Cleanup on Drive C: and removes old Windows Updates.",
+                                 "category":  "Essential Tweaks",
+                                 "panel":  "1",
+                                 "Order":  "a009_",
+                                 "InvokeScript":  [
+                                                      "
       cleanmgr.exe /d C: /VERYLOWDISK
       Dism.exe /online /Cleanup-Image /StartComponentCleanup /ResetBase
       "
-    ]
-  },
-  "WPFTweaksDeleteTempFiles": {
-    "Content": "Delete Temporary Files",
-    "Description": "Erases TEMP Folders",
-    "category": "Essential Tweaks",
-    "panel": "1",
-    "Order": "a002_",
-    "InvokeScript": [
-      "Get-ChildItem -Path \"C:\\Windows\\Temp\" *.* -Recurse | Remove-Item -Force -Recurse
+                                                  ]
+                             },
+    "WPFTweaksDeleteTempFiles":  {
+                                     "Content":  "Delete Temporary Files",
+                                     "Description":  "Erases TEMP Folders",
+                                     "category":  "Essential Tweaks",
+                                     "panel":  "1",
+                                     "Order":  "a002_",
+                                     "InvokeScript":  [
+                                                          "Get-ChildItem -Path \"C:\\Windows\\Temp\" *.* -Recurse | Remove-Item -Force -Recurse
     Get-ChildItem -Path $env:TEMP *.* -Recurse | Remove-Item -Force -Recurse"
-    ]
-  },
-  "WPFTweaksDVR": {
-    "Content": "Disable GameDVR",
-    "Description": "GameDVR is a Windows App that is a dependency for some Store Games. I&#39;ve never met someone that likes it, but it&#39;s there for the XBOX crowd.",
-    "category": "Essential Tweaks",
-    "panel": "1",
-    "Order": "a005_",
-    "registry": [
-      {
-        "Path": "HKCU:\\System\\GameConfigStore",
-        "Name": "GameDVR_FSEBehavior",
-        "Value": "2",
-        "OriginalValue": "1",
-        "Type": "DWord"
-      },
-      {
-        "Path": "HKCU:\\System\\GameConfigStore",
-        "Name": "GameDVR_Enabled",
-        "Value": "0",
-        "OriginalValue": "1",
-        "Type": "DWord"
-      },
-      {
-        "Path": "HKCU:\\System\\GameConfigStore",
-        "Name": "GameDVR_HonorUserFSEBehaviorMode",
-        "Value": "1",
-        "OriginalValue": "0",
-        "Type": "DWord"
-      },
-      {
-        "Path": "HKCU:\\System\\GameConfigStore",
-        "Name": "GameDVR_EFSEFeatureFlags",
-        "Value": "0",
-        "OriginalValue": "1",
-        "Type": "DWord"
-      },
-      {
-        "Path": "HKLM:\\SOFTWARE\\Policies\\Microsoft\\Windows\\GameDVR",
-        "Name": "AllowGameDVR",
-        "Value": "0",
-        "OriginalValue": "1",
-        "Type": "DWord"
-      }
-    ]
-  },
-  "WPFToggleDarkMode": {
-    "Content": "Enable Dark Theme for Windows",
-    "Description": "Enable/Disable Dark Mode.",
-    "category": "Customize Preferences",
-    "panel": "2",
-    "Order": "a100_",
-    "Type": "Toggle"
-  },
-  "WPFToggleBingSearch": {
-    "Content": "Enable Bing Search in Start Menu",
-    "Description": "If enable then includes web search results from Bing in your Start Menu search.",
-    "category": "Customize Preferences",
-    "panel": "2",
-    "Order": "a101_",
-    "Type": "Toggle"
-  },
-  "WPFToggleNumLock": {
-    "Content": "Enable NumLock on Startup",
-    "Description": "Toggle the Num Lock key state when your computer starts.",
-    "category": "Customize Preferences",
-    "panel": "2",
-    "Order": "a102_",
-    "Type": "Toggle"
-  },
-  "WPFToggleSnapFlyout": {
-    "Content": "Enable Snap Assist Flyout",
-    "Description": "If enabled then Snap preview is disabled when maximize button is hovered.",
-    "category": "Customize Preferences",
-    "panel": "2",
-    "Order": "a105_",
-    "Type": "Toggle"
-  },
-  "WPFToggleSnapSuggestion": {
-    "Content": "Enable Snap Assist Suggestion",
-    "Description": "If enabled then you will get suggestions to snap other applications in the left over spaces.",
-    "category": "Customize Preferences",
-    "panel": "2",
-    "Order": "a106_",
-    "Type": "Toggle"
-  },
-  "WPFToggleMouseAcceleration": {
-    "Content": "Enable Mouse Acceleration",
-    "Description": "If Enabled then Cursor movement is affected by the speed of your physical mouse movements.",
-    "category": "Customize Preferences",
-    "panel": "2",
-    "Order": "a107_",
-    "Type": "Toggle"
-  },
-  "WPFToggleStickyKeys": {
-    "Content": "Enable Sticky Keys",
-    "Description": "If Enabled then Sticky Keys is activated - Sticky keys is an accessibility feature of some graphical user interfaces which assists users who have physical disabilities or help users reduce repetitive strain injury.",
-    "category": "Customize Preferences",
-    "panel": "2",
-    "Order": "a108_",
-    "Type": "Toggle"
-  },
-  "WPFToggleHiddenFiles": {
-    "Content": "Show Hidden Files",
-    "Description": "If Enabled then Hidden Files will be shown.",
-    "category": "Customize Preferences",
-    "panel": "2",
-    "Order": "a200_",
-    "Type": "Toggle"
-  },
-  "WPFToggleShowExt": {
-    "Content": "Show File Extensions",
-    "Description": "If enabled then File extensions (e.g., .txt, .jpg) are visible.",
-    "category": "Customize Preferences",
-    "panel": "2",
-    "Order": "a201_",
-    "Type": "Toggle"
-  },
-  "WPFToggleTaskbarSearch": {
-    "Content": "Show Search Button in Taskbar",
-    "Description": "If Enabled Search Button will be on the taskbar.",
-    "category": "Customize Preferences",
-    "panel": "2",
-    "Order": "a202_",
-    "Type": "Toggle"
-  },
-  "WPFToggleTaskView": {
-    "Content": "Show Task View Button in Taskbar",
-    "Description": "If Enabled then Task View Button in Taskbar will be shown.",
-    "category": "Customize Preferences",
-    "panel": "2",
-    "Order": "a203_",
-    "Type": "Toggle"
-  },
-  "WPFToggleTaskbarWidgets": {
-    "Content": "Show Widgets Button in Taskbar",
-    "Description": "If Enabled then Widgets Button in Taskbar will be shown.",
-    "category": "Customize Preferences",
-    "panel": "2",
-    "Order": "a204_",
-    "Type": "Toggle"
-  },
-  "WPFToggleTaskbarAlignment": {
-    "Content": "Switch Taskbar Items between Center &#38; Left",
-    "Description": "[Windows 11] If Enabled then the Taskbar Items will be shown on the Center, otherwise the Taskbar Items will be shown on the Left.",
-    "category": "Customize Preferences",
-    "panel": "2",
-    "Order": "a204_",
-    "Type": "Toggle"
-  },
-  "WPFTweaksbutton": {
-    "Content": "Run Tweaks",
-    "category": "Essential Tweaks",
-    "panel": "1",
-    "Order": "a041_",
-    "Type": "Button"
-  },
-  "WPFUndoall": {
-    "Content": "Undo Selected Tweaks",
-    "category": "Essential Tweaks",
-    "panel": "1",
-    "Order": "a042_",
-    "Type": "Button"
-  }
+                                                      ]
+                                 },
+    "WPFTweaksDVR":  {
+                         "Content":  "Disable GameDVR",
+                         "Description":  "GameDVR is a Windows App that is a dependency for some Store Games. I\u0026#39;ve never met someone that likes it, but it\u0026#39;s there for the XBOX crowd.",
+                         "category":  "Essential Tweaks",
+                         "panel":  "1",
+                         "Order":  "a005_",
+                         "registry":  [
+                                          {
+                                              "Path":  "HKCU:\\System\\GameConfigStore",
+                                              "Name":  "GameDVR_FSEBehavior",
+                                              "Value":  "2",
+                                              "OriginalValue":  "1",
+                                              "Type":  "DWord"
+                                          },
+                                          {
+                                              "Path":  "HKCU:\\System\\GameConfigStore",
+                                              "Name":  "GameDVR_Enabled",
+                                              "Value":  "0",
+                                              "OriginalValue":  "1",
+                                              "Type":  "DWord"
+                                          },
+                                          {
+                                              "Path":  "HKCU:\\System\\GameConfigStore",
+                                              "Name":  "GameDVR_HonorUserFSEBehaviorMode",
+                                              "Value":  "1",
+                                              "OriginalValue":  "0",
+                                              "Type":  "DWord"
+                                          },
+                                          {
+                                              "Path":  "HKCU:\\System\\GameConfigStore",
+                                              "Name":  "GameDVR_EFSEFeatureFlags",
+                                              "Value":  "0",
+                                              "OriginalValue":  "1",
+                                              "Type":  "DWord"
+                                          },
+                                          {
+                                              "Path":  "HKLM:\\SOFTWARE\\Policies\\Microsoft\\Windows\\GameDVR",
+                                              "Name":  "AllowGameDVR",
+                                              "Value":  "0",
+                                              "OriginalValue":  "1",
+                                              "Type":  "DWord"
+                                          }
+                                      ]
+                     },
+    "WPFToggleDarkMode":  {
+                              "Content":  "Enable Dark Theme for Windows",
+                              "Description":  "Enable/Disable Dark Mode.",
+                              "category":  "Customize Preferences",
+                              "panel":  "2",
+                              "Order":  "a100_",
+                              "Type":  "Toggle"
+                          },
+    "WPFToggleBingSearch":  {
+                                "Content":  "Enable Bing Search in Start Menu",
+                                "Description":  "If enable then includes web search results from Bing in your Start Menu search.",
+                                "category":  "Customize Preferences",
+                                "panel":  "2",
+                                "Order":  "a101_",
+                                "Type":  "Toggle"
+                            },
+    "WPFToggleNumLock":  {
+                             "Content":  "Enable NumLock on Startup",
+                             "Description":  "Toggle the Num Lock key state when your computer starts.",
+                             "category":  "Customize Preferences",
+                             "panel":  "2",
+                             "Order":  "a102_",
+                             "Type":  "Toggle"
+                         },
+    "WPFToggleSnapFlyout":  {
+                                "Content":  "Enable Snap Assist Flyout",
+                                "Description":  "If enabled then Snap preview is disabled when maximize button is hovered.",
+                                "category":  "Customize Preferences",
+                                "panel":  "2",
+                                "Order":  "a105_",
+                                "Type":  "Toggle"
+                            },
+    "WPFToggleSnapSuggestion":  {
+                                    "Content":  "Enable Snap Assist Suggestion",
+                                    "Description":  "If enabled then you will get suggestions to snap other applications in the left over spaces.",
+                                    "category":  "Customize Preferences",
+                                    "panel":  "2",
+                                    "Order":  "a106_",
+                                    "Type":  "Toggle"
+                                },
+    "WPFToggleMouseAcceleration":  {
+                                       "Content":  "Enable Mouse Acceleration",
+                                       "Description":  "If Enabled then Cursor movement is affected by the speed of your physical mouse movements.",
+                                       "category":  "Customize Preferences",
+                                       "panel":  "2",
+                                       "Order":  "a107_",
+                                       "Type":  "Toggle"
+                                   },
+    "WPFToggleStickyKeys":  {
+                                "Content":  "Enable Sticky Keys",
+                                "Description":  "If Enabled then Sticky Keys is activated - Sticky keys is an accessibility feature of some graphical user interfaces which assists users who have physical disabilities or help users reduce repetitive strain injury.",
+                                "category":  "Customize Preferences",
+                                "panel":  "2",
+                                "Order":  "a108_",
+                                "Type":  "Toggle"
+                            },
+    "WPFToggleHiddenFiles":  {
+                                 "Content":  "Show Hidden Files",
+                                 "Description":  "If Enabled then Hidden Files will be shown.",
+                                 "category":  "Customize Preferences",
+                                 "panel":  "2",
+                                 "Order":  "a200_",
+                                 "Type":  "Toggle"
+                             },
+    "WPFToggleShowExt":  {
+                             "Content":  "Show File Extensions",
+                             "Description":  "If enabled then File extensions (e.g., .txt, .jpg) are visible.",
+                             "category":  "Customize Preferences",
+                             "panel":  "2",
+                             "Order":  "a201_",
+                             "Type":  "Toggle"
+                         },
+    "WPFToggleTaskbarSearch":  {
+                                   "Content":  "Show Search Button in Taskbar",
+                                   "Description":  "If Enabled Search Button will be on the taskbar.",
+                                   "category":  "Customize Preferences",
+                                   "panel":  "2",
+                                   "Order":  "a202_",
+                                   "Type":  "Toggle"
+                               },
+    "WPFToggleTaskView":  {
+                              "Content":  "Show Task View Button in Taskbar",
+                              "Description":  "If Enabled then Task View Button in Taskbar will be shown.",
+                              "category":  "Customize Preferences",
+                              "panel":  "2",
+                              "Order":  "a203_",
+                              "Type":  "Toggle"
+                          },
+    "WPFToggleTaskbarWidgets":  {
+                                    "Content":  "Show Widgets Button in Taskbar",
+                                    "Description":  "If Enabled then Widgets Button in Taskbar will be shown.",
+                                    "category":  "Customize Preferences",
+                                    "panel":  "2",
+                                    "Order":  "a204_",
+                                    "Type":  "Toggle"
+                                },
+    "WPFToggleTaskbarAlignment":  {
+                                      "Content":  "Switch Taskbar Items between Center \u0026#38; Left",
+                                      "Description":  "[Windows 11] If Enabled then the Taskbar Items will be shown on the Center, otherwise the Taskbar Items will be shown on the Left.",
+                                      "category":  "Customize Preferences",
+                                      "panel":  "2",
+                                      "Order":  "a204_",
+                                      "Type":  "Toggle"
+                                  },
+    "WPFTweaksbutton":  {
+                            "Content":  "Run Tweaks",
+                            "category":  "Essential Tweaks",
+                            "panel":  "1",
+                            "Order":  "a041_",
+                            "Type":  "Button"
+                        },
+    "WPFUndoall":  {
+                       "Content":  "Undo Selected Tweaks",
+                       "category":  "Essential Tweaks",
+                       "panel":  "1",
+                       "Order":  "a042_",
+                       "Type":  "Button"
+                   }
 }' | convertfrom-json
 $inputXML =  '<Window x:Class="WinUtility.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
